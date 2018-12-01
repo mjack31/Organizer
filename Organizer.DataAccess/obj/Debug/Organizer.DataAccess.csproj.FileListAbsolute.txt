@@ -1,0 +1,16 @@
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\bin\Debug\Organizer.DataAccess.dll
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\bin\Debug\Organizer.DataAccess.pdb
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\bin\Debug\Organizer.Models.dll
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\bin\Debug\Organizer.Models.pdb
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.csprojAssemblyReference.cache
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.csproj.CopyComplete
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.dll
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.pdb
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\bin\Debug\Organizer.DataAccess.dll.config
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\bin\Debug\EntityFramework.dll
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\bin\Debug\EntityFramework.xml
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.InitialDb.resources
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.csproj.GenerateResource.cache
