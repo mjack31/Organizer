@@ -16,10 +16,13 @@ namespace Organizer.UI
         {
             var builder = new ContainerBuilder();
             //rejestrowanie klas kontenera
-            builder.RegisterType<FriendsDbDataService>().As<IFriendsDataService>();
+            builder.RegisterType<FriendsDataService>().As<IFriendsDataService>();
             builder.RegisterType<MainWindowViewModel>().AsSelf();
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<OrganizerDbContext>().AsSelf();
+            builder.RegisterType<FriendDetailsDataService>().As<IFriendDetailsDataService>();
+            builder.RegisterType<FriendsListViewModel>().As<IFriendsListViewModel>();
+            builder.RegisterType<FriendDetailsViewModel>().As<IFriendDetailsViewModel>();
 
             return builder.Build();
         }

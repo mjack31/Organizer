@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI"
+        xmlns:view="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" FontSize="20">
     <Grid>
@@ -12,40 +13,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <ListView
-            Grid.Row="0"
-            Grid.Column="0"
-            ItemsSource="{Binding Friends}" 
-            SelectedItem="{Binding SelectedFriend, Mode=TwoWay}" 
-            DisplayMemberPath="FirstName"/>
-        
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <Label Grid.Row="0" Content="First name" Margin="5 5 5 5"/>
-            <TextBox Grid.Row="1" Margin="5 5 5 5" Text="{
-                Binding SelectedFriend.FirstName, 
-                Mode=TwoWay,
-                UpdateSourceTrigger=PropertyChanged}"/>
-
-            <Label Grid.Row="2" Content="Last name" Margin="5 5 5 5"/>
-            <TextBox Grid.Row="3" Margin="5 5 5 5" Text="{
-                Binding SelectedFriend.LastName, 
-                Mode=TwoWay,
-                UpdateSourceTrigger=PropertyChanged}"/>
-
-            <Label Grid.Row="4" Content="Email" Margin="5 5 5 5"/>
-            <TextBox Grid.Row="5" Margin="5 5 5 5" Text="{
-                Binding SelectedFriend.Email, 
-                Mode=TwoWay,
-                UpdateSourceTrigger=PropertyChanged}"/>
-        </Grid>
+        <view:FriendsListView DataContext="{Binding FriendsListViewModel}" />
+        <view:FriendDetailsView Grid.Column="1" DataContext="{Binding FriendDetailsViewModel}" />
     </Grid>
 </Window>

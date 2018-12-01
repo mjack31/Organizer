@@ -11,35 +11,18 @@ namespace Organizer.UI.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        private Friend _selectedFriend;
-        private IFriendsDataService _friendsDataService;
-
-        public MainWindowViewModel(IFriendsDataService friendsDataService)
+        public MainWindowViewModel(IFriendsListViewModel friendsListViewModel, IFriendDetailsViewModel friendDetailsViewModel)
         {
-            Friends = new ObservableCollection<Friend>();
-            _friendsDataService = friendsDataService;
+            FriendsListViewModel = friendsListViewModel;
+            FriendDetailsViewModel = friendDetailsViewModel;
         }
 
-        public void LoadData()
+        public async Task LoadDataAsync()
         {
-            var friends = _friendsDataService.GetAll();
-            Friends.Clear(); // Dla pewności zawsze czyścić kolekcję
-            foreach (Friend friend in friends)
-            {
-                Friends.Add(friend);
-            }
+            await FriendsListViewModel.LoadDataAsync();
         }
 
-        public ObservableCollection<Friend> Friends { get; set; }
-
-        public Friend SelectedFriend
-        {
-            get { return _selectedFriend; }
-            set {
-                _selectedFriend = value;
-                // przy każdym setowaniu odpalać ten event aby UI się updateowało
-                OnProperyChanged(nameof(SelectedFriend));
-            }
-        }
+        public IFriendsListViewModel FriendsListViewModel { get; }
+        public IFriendDetailsViewModel FriendDetailsViewModel { get; }
     }
 }

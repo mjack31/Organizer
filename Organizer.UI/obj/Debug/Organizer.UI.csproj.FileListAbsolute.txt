@@ -25,3 +25,8 @@ C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\EntityFramework.xml
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\obj\Debug\Views\FriendDetailsView.g.cs
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\obj\Debug\Views\FriendsListView.g.cs
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\obj\Debug\Views\FriendDetailsView.baml
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\obj\Debug\Views\FriendsListView.baml

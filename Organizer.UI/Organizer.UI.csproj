@@ -66,9 +66,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Data\FriendsDbDataService.cs" />
+    <Compile Include="Data\FriendDetailsDataService.cs" />
+    <Compile Include="Data\FriendsDataService.cs" />
+    <Compile Include="Data\IFriendDetailsDataService.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\FriendDetailsViewModel.cs" />
+    <Compile Include="ViewModels\FriendsListViewModel.cs" />
+    <Compile Include="ViewModels\IFriendDetailsViewModel.cs" />
+    <Compile Include="ViewModels\IFriendsListViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\FriendDetailsView.xaml.cs">
+      <DependentUpon>FriendDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FriendsListView.xaml.cs">
+      <DependentUpon>FriendsListView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,12 +89,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data\FriendsDummyDataService.cs" />
     <Compile Include="Data\IFriendsDataService.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\FriendDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FriendsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
