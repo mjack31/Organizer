@@ -24,16 +24,9 @@ namespace Organizer.UI
             // stworzenie kontenera
             var container = bootsrapper.Container();
 
-            // zwrócenie instancji klasy MainWindow (code behind) i pokazanie okna
-            //////////////While it is possible to resolve components right from the root container, doing this through your
-            //////////////application in some cases may result in a memory leak.It is recommended you always resolve components 
-            //////////////from a lifetime scope where possible to make sure service instances are properly disposed and garbage 
-            //////////////collected. You can read more about this in the section on controlling scope and lifetime.
-            using (var scope = container.BeginLifetimeScope())
-            {
-                var mainWindow = scope.Resolve<MainWindow>();
-                mainWindow.Show();
-            }
+            // odpalenie głównego okna
+            var mainWindow = container.Resolve<MainWindow>();
+            mainWindow.Show();
         }
     }
 }

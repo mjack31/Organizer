@@ -1,5 +1,7 @@
 ﻿using Organizer.Models;
 using Organizer.UI.Data;
+using Organizer.UI.Events;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +14,18 @@ namespace Organizer.UI.ViewModels
     {
         private Friend _friend;
         private IFriendDetailsDataService _friendDataService;
+        private IEventAggregator _eventAggregator;
 
-        public FriendDetailsViewModel(IFriendDetailsDataService friendDataService)
+        public FriendDetailsViewModel(IFriendDetailsDataService friendDataService, IEventAggregator eventAggregator)
         {
             _friendDataService = friendDataService;
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<ListItemChosenEvent>().Subscribe(onListItemChosen);
+        }
+
+        private async void onListItemChosen(int id)
+        {
+            await LoadFriendAsync(id);
         }
 
         public async Task LoadFriendAsync(int friendId)

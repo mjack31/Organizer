@@ -8,7 +8,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <ListView
-            ItemsSource="{Binding FriendsList}" 
+            ItemsSource="{Binding FriendsList}"
+            SelectedItem="{Binding SelectedFriend, Mode=TwoWay}"
             DisplayMemberPath="Name"/>
     </Grid>
 </UserControl>

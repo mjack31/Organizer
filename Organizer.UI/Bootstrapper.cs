@@ -2,6 +2,7 @@
 using Organizer.DataAccess;
 using Organizer.UI.Data;
 using Organizer.UI.ViewModels;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,10 @@ namespace Organizer.UI
         public IContainer Container()
         {
             var builder = new ContainerBuilder();
+
+            //prism event aggregator
+            builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+
             //rejestrowanie klas kontenera
             builder.RegisterType<FriendsDataService>().As<IFriendsDataService>();
             builder.RegisterType<MainWindowViewModel>().AsSelf();
