@@ -20,10 +20,10 @@ namespace Organizer.UI.ViewModels
         {
             _friendDataService = friendDataService;
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<ListItemChosenEvent>().Subscribe(onListItemChosen);
+            _eventAggregator.GetEvent<ListItemChosenEvent>().Subscribe(_onListItemChosen);
         }
 
-        private async void onListItemChosen(int id)
+        private async void _onListItemChosen(int id)
         {
             await LoadFriendAsync(id);
         }
