@@ -20,39 +20,45 @@ namespace Organizer.UI.ViewModels
         public FriendsListViewModel(IFriendsDataService friendsDataService, IEventAggregator eventAggregator)
         {
             // unikać instancjowania obiektów przez new, chyba że sąto listy, słowniki itp
-            FriendsList = new ObservableCollection<ListItem>();
+            FriendsList = new ObservableCollection<ListItemViewModel>();
             _friendsDataService = friendsDataService;
             _eventAggregator = eventAggregator;
+
+            _eventAggregator.GetEvent<FriendChangesSavedEvent>().Subscribe(_onFriendChangesSavedAsync);
+        }
+
+        private void _onFriendChangesSavedAsync(ListItem friend)
+        {
+            var friendToChange = FriendsList.FirstOrDefault(f => f.Id == friend.Id);
+            friendToChange.Name = friend.Name;
         }
 
         // Aktywna lista która updateuje UI gdy zmienia się jej zawartość
         // Do tego propery zbindowany jest ListView
-        public ObservableCollection<ListItem> FriendsList { get; set; }
+        public ObservableCollection<ListItemViewModel> FriendsList { get; }
 
         // ładowanie listy przyjaciół
         public async Task LoadDataAsync()
         {
             var listItems = await _friendsDataService.GetAllAsync();
             FriendsList.Clear(); // Dla pewności zawsze czyścić kolekcję
-            foreach (ListItem item in listItems)
+            foreach (var item in listItems)
             {
-                FriendsList.Add(item);
+                var friend = new ListItemViewModel(item.Id, item.Name);
+                FriendsList.Add(friend);
             }
         }
 
         // property do którego zbindowanne jest SelectedItem elementu ListView widoku
-        private ListItem _selectedFriend;
-        public ListItem SelectedFriend
+        private ListItemViewModel _selectedFriend;
+        public ListItemViewModel SelectedFriend
         {
             get { return _selectedFriend; }
             set
             {
                 _selectedFriend = value;
-                // przy każdym setowaniu odpalać ten event aby UI się updateowało
-                // tutaj chyba nie musi być UI powiadamiane o zmianie
-                // OnProperyChanged(nameof(SelectedFriend));
 
-                // odpalenie event z EventAggregatora Prism'a. Klasa ListItemChosenEvent definiuje że payload jest typu int
+                // odpalenie eventu informującego że zaznaczono innego frienda
                 _eventAggregator.GetEvent<ListItemChosenEvent>().Publish(SelectedFriend.Id);
             }
         }

@@ -6,5 +6,6 @@ namespace Organizer.UI.Data
     public interface IFriendDetailsDataService
     {
         Task<Friend> GetFriendAsync(int id);
+        Task SaveFriendAsync(Friend friend);
     }
 }

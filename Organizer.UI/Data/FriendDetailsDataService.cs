@@ -26,5 +26,15 @@ namespace Organizer.UI.Data
                 return friend;
             }
         }
+
+        public async Task SaveFriendAsync(Friend friend)
+        {
+            using (var context = _dbContextCreator())
+            {
+                context.Friends.Attach(friend);
+                context.Entry(friend).State = EntityState.Modified;
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

@@ -72,12 +72,14 @@
     <Compile Include="Data\FriendDetailsDataService.cs" />
     <Compile Include="Data\FriendsDataService.cs" />
     <Compile Include="Data\IFriendDetailsDataService.cs" />
+    <Compile Include="Events\FriendChangesSavedEvent.cs" />
     <Compile Include="Events\ListItemChosenEvent.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\FriendDetailsViewModel.cs" />
     <Compile Include="ViewModels\FriendsListViewModel.cs" />
     <Compile Include="ViewModels\IFriendDetailsViewModel.cs" />
     <Compile Include="ViewModels\IFriendsListViewModel.cs" />
+    <Compile Include="ViewModels\ListItemViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\FriendDetailsView.xaml.cs">
       <DependentUpon>FriendDetailsView.xaml</DependentUpon>
