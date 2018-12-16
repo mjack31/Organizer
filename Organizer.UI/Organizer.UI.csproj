@@ -87,6 +87,8 @@
     <Compile Include="Views\FriendsListView.xaml.cs">
       <DependentUpon>FriendsListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Wrappers\FriendWrapper.cs" />
+    <Compile Include="Wrappers\ValidationErrorsNotifier.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

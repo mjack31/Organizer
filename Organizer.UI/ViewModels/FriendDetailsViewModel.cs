@@ -1,6 +1,7 @@
 ﻿using Organizer.Models;
 using Organizer.UI.Data;
 using Organizer.UI.Events;
+using Organizer.UI.Wrappers;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -13,7 +14,7 @@ namespace Organizer.UI.ViewModels
 {
     public class FriendDetailsViewModel : BaseViewModel, IFriendDetailsViewModel
     {
-        private Friend _friend;
+        private FriendWrapper _friend;
         private IFriendDetailsDataService _friendDataService;
         private IEventAggregator _eventAggregator;
 
@@ -32,16 +33,17 @@ namespace Organizer.UI.ViewModels
             SaveCommand = new DelegateCommand(OnSaveCommand, OnSaveCoommandCanExecute);
         }
 
+
         private async void OnSaveCommand()
         {
-            await _friendDataService.SaveFriendAsync(Friend);
+            await _friendDataService.SaveFriendAsync(Friend.Model);
             _eventAggregator.GetEvent<FriendChangesSavedEvent>().Publish(new ListItem { Id = Friend.Id, Name = $"{Friend.FirstName} {Friend.LastName}" });
         }
 
         private bool OnSaveCoommandCanExecute()
         {
             // TODO - Dodać warunek
-            return true;
+            return Friend != null && !Friend.HasErrors;
         }
 
         // event handler wybrania danego Friendsa
@@ -53,18 +55,24 @@ namespace Organizer.UI.ViewModels
         // ładowanie pełnych danych wybranego przyjaciela
         public async Task LoadFriendAsync(int friendId)
         {
-            Friend = await _friendDataService.GetFriendAsync(friendId);
+            var friend = await _friendDataService.GetFriendAsync(friendId);
+            Friend = new FriendWrapper(friend);
+
+            Friend.PropertyChanged += (s, e) =>
+            {
+                SaveCommand.RaiseCanExecuteChanged();
+            };
         }
 
         // propery do którego zbindowany jest widok
-        public Friend Friend
+        public FriendWrapper Friend
         {
             get { return _friend; }
             set
             {
                 _friend = value;
                 // przy każdym setowaniu odpalać ten event aby UI się updateowało
-                // tutaj UI musi wiedzieć że zaszły zmiany w Friend i zupdateować View na tej podstawie i odwrotnie
+                // tutaj UI musi wiedzieć że wybrano jakiegoś Frienda i że wybrano innego
                 OnProperyChanged(nameof(Friend));
             }
         }
