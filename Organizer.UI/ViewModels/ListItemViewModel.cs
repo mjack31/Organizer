@@ -1,22 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Organizer.UI.Events;
+using Prism.Commands;
+using Prism.Events;
+using System;
 
 namespace Organizer.UI.ViewModels
 {
     public class ListItemViewModel : BaseViewModel
     {
-        public ListItemViewModel(int id, string name)
+        private IEventAggregator _eventAggregator;
+        private string _name;
+
+        public ListItemViewModel(int id, string name, IEventAggregator eventAggregator)
         {
             Id = id;
             Name = name;
+            _eventAggregator = eventAggregator;
+
+            SelectItemCommand = new DelegateCommand(OnSelectItemCommand, OnSelectItemCommandCanExecute);
+        }
+
+        // zezwolenie na odpalenie commanda
+        private bool OnSelectItemCommandCanExecute()
+        {
+            // TODO - dodać warunek
+            return true;
+        }
+
+        // Handler commanda wyboru frienda
+        private void OnSelectItemCommand()
+        {
+            _eventAggregator.GetEvent<ListItemChosenEvent>().Publish(Id);
         }
 
         public int Id { get; }
-
-        private string _name;
 
         public string Name
         {
@@ -24,9 +40,11 @@ namespace Organizer.UI.ViewModels
             set
             {
                 _name = value;
-                var propName = nameof(Name);
-                OnProperyChanged(propName);
+                OnProperyChanged(nameof(Name));
             }
         }
+
+        // command wyboru danego frienda
+        public DelegateCommand SelectItemCommand { get; }
     }
 }

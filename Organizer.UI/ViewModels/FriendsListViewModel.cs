@@ -2,11 +2,8 @@
 using Organizer.UI.Data;
 using Organizer.UI.Events;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Organizer.UI.ViewModels
@@ -44,24 +41,24 @@ namespace Organizer.UI.ViewModels
             FriendsList.Clear(); // Dla pewności zawsze czyścić kolekcję
             foreach (var item in listItems)
             {
-                var friend = new ListItemViewModel(item.Id, item.Name);
+                var friend = new ListItemViewModel(item.Id, item.Name, _eventAggregator);
                 FriendsList.Add(friend);
             }
         }
 
-        // property do którego zbindowanne jest SelectedItem elementu ListView widoku
-        private ListItemViewModel _selectedFriend;
-        public ListItemViewModel SelectedFriend
-        {
-            get { return _selectedFriend; }
-            set
-            {
-                _selectedFriend = value;
+        // Po zmianie z ListView na buttony i przeniesieniu publishera eventu kod nie jest już potrzebny
+        //// property do którego zbindowanne jest SelectedItem elementu ListView widoku
+        //private ListItemViewModel _selectedFriend;
+        //public ListItemViewModel SelectedFriend
+        //{
+        //    get { return _selectedFriend; }
+        //    set
+        //    {
+        //        _selectedFriend = value;
 
-                // odpalenie eventu informującego że zaznaczono innego frienda
-                _eventAggregator.GetEvent<ListItemChosenEvent>().Publish(SelectedFriend.Id);
-            }
-        }
-
+        //        // odpalenie eventu informującego że zaznaczono innego frienda
+        //        _eventAggregator.GetEvent<ListItemChosenEvent>().Publish(SelectedFriend.Id);
+        //    }
+        //}
     }
 }

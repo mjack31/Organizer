@@ -7,9 +7,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ListView
+        <!--<ListView
             ItemsSource="{Binding FriendsList}"
             SelectedItem="{Binding SelectedFriend, Mode=TwoWay}"
-            DisplayMemberPath="Name"/>
+            DisplayMemberPath="Name"/>-->
+        <ItemsControl ItemsSource="{Binding FriendsList}">
+            <ItemsControl.ItemTemplate >
+                <DataTemplate>
+                    <Button Content="{Binding Name}"
+                            Command="{Binding SelectItemCommand}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

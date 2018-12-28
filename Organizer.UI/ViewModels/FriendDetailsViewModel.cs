@@ -4,10 +4,6 @@ using Organizer.UI.Events;
 using Organizer.UI.Wrappers;
 using Prism.Commands;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Organizer.UI.ViewModels
@@ -33,12 +29,12 @@ namespace Organizer.UI.ViewModels
         {
             await _friendDataService.SaveFriendAsync();
             _eventAggregator.GetEvent<FriendChangesSavedEvent>().Publish(new ListItem { Id = Friend.Id, Name = $"{Friend.FirstName} {Friend.LastName}" });
+            // wylączenie przycisku Save po zapisaniu poprzes sprawdzenie zmian w kontekscie
             HasChanges = _friendDataService.HasChanges();
         }
 
         private bool OnSaveCoommandCanExecute()
         {
-            // TODO - Dodać warunek
             return Friend != null && !Friend.HasErrors && HasChanges;
         }
 
@@ -88,6 +84,6 @@ namespace Organizer.UI.ViewModels
         }
 
         // command przycisku zapisz zmiany
-        public DelegateCommand SaveCommand { get; private set; }
+        public DelegateCommand SaveCommand { get; }
     }
 }

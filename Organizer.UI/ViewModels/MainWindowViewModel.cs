@@ -12,6 +12,7 @@ namespace Organizer.UI.ViewModels
         private IEventAggregator _eventAggregator;
         private Func<IFriendDetailsViewModel> _friendDetailsViewModelCreator;
         private IMessageService _messageService;
+        private IFriendDetailsViewModel _friendDetailsViewModel;
 
         public MainWindowViewModel(IFriendsListViewModel friendsListViewModel, Func<IFriendDetailsViewModel> friendDetailsViewModelCreator, 
             IEventAggregator eventAggregator, IMessageService msgService)
@@ -33,8 +34,7 @@ namespace Organizer.UI.ViewModels
         }
 
         public IFriendsListViewModel FriendsListViewModel { get; }
-        private IFriendDetailsViewModel _friendDetailsViewModel;
-
+        
         public IFriendDetailsViewModel FriendDetailsViewModel
         {
             get { return _friendDetailsViewModel; }
