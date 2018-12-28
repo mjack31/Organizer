@@ -15,42 +15,48 @@ namespace Organizer.UI.ViewModels
     public class FriendDetailsViewModel : BaseViewModel, IFriendDetailsViewModel
     {
         private FriendWrapper _friend;
-        private IFriendDetailsDataService _friendDataService;
+        private IFriendsRepository _friendDataService;
         private IEventAggregator _eventAggregator;
 
         // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
-        public FriendDetailsViewModel(IFriendDetailsDataService friendDataService, IEventAggregator eventAggregator)
+        public FriendDetailsViewModel(IFriendsRepository friendDataService, IEventAggregator eventAggregator)
         {
             _friendDataService = friendDataService;
             _eventAggregator = eventAggregator;
-
-            // dodanie subskrybenta (handlera) do eventu EventAggregatora Prism'a. Metoda Subscribe przyjmuje Action<T>
-            // ale można zamiast delegaty dodawać normalnie metody - ułatwienie
-            _eventAggregator.GetEvent<ListItemChosenEvent>().Subscribe(_onListItemChosen);
 
             // inicjalizacja property SaveCommand - konstruktor przyjmuje 2 delegaty/metody. Dobrą praktyką jest nazwyać pierwszą z "on" na początku bo to handler
             // a drugą z CanExecute na końcu ponieważ ona zezwala na odpalenie handlera - wyszaża przycisk
             SaveCommand = new DelegateCommand(OnSaveCommand, OnSaveCoommandCanExecute);
         }
 
-
         private async void OnSaveCommand()
         {
-            await _friendDataService.SaveFriendAsync(Friend.Model);
+            await _friendDataService.SaveFriendAsync();
             _eventAggregator.GetEvent<FriendChangesSavedEvent>().Publish(new ListItem { Id = Friend.Id, Name = $"{Friend.FirstName} {Friend.LastName}" });
+            HasChanges = _friendDataService.HasChanges();
         }
 
         private bool OnSaveCoommandCanExecute()
         {
             // TODO - Dodać warunek
-            return Friend != null && !Friend.HasErrors;
+            return Friend != null && !Friend.HasErrors && HasChanges;
         }
 
-        // event handler wybrania danego Friendsa
-        private async void _onListItemChosen(int id)
+        private bool _hasChanges;
+
+        public bool HasChanges
         {
-            await LoadFriendAsync(id);
+            get { return _hasChanges; }
+            set
+            {
+                _hasChanges = value;
+                // informacja o zmianie tego prop raczej nie potrzebna bo i tak jest odpalany event RaiseCanExecuteChanged
+                OnProperyChanged(nameof(HasChanges));
+                // event odpalany po to aby zaktualizowac przycisk save
+                SaveCommand.RaiseCanExecuteChanged();
+            }
         }
+
 
         // ładowanie pełnych danych wybranego przyjaciela
         public async Task LoadFriendAsync(int friendId)
@@ -60,8 +66,12 @@ namespace Organizer.UI.ViewModels
 
             Friend.PropertyChanged += (s, e) =>
             {
+                // przy każdej zmianie propery w wrapperze odpalenie eventu
                 SaveCommand.RaiseCanExecuteChanged();
+                // sprawdzanie kontekstu db czy są zmiany
+                HasChanges = _friendDataService.HasChanges();
             };
+            SaveCommand.RaiseCanExecuteChanged();
         }
 
         // propery do którego zbindowany jest widok
@@ -72,7 +82,7 @@ namespace Organizer.UI.ViewModels
             {
                 _friend = value;
                 // przy każdym setowaniu odpalać ten event aby UI się updateowało
-                // tutaj UI musi wiedzieć że wybrano jakiegoś Frienda i że wybrano innego
+                // tutaj UI musi wiedzieć że wybrano jakiegoś Frienda i że wybrano innego nawet jeżeli tworzony jest nowy ViewModel
                 OnProperyChanged(nameof(Friend));
             }
         }

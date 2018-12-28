@@ -13,11 +13,11 @@ namespace Organizer.UI.ViewModels
 {
     public class FriendsListViewModel : BaseViewModel, IFriendsListViewModel
     {
-        private IFriendsDataService _friendsDataService;
+        private IListItemsDataService _friendsDataService;
         private IEventAggregator _eventAggregator;
 
         // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
-        public FriendsListViewModel(IFriendsDataService friendsDataService, IEventAggregator eventAggregator)
+        public FriendsListViewModel(IListItemsDataService friendsDataService, IEventAggregator eventAggregator)
         {
             // unikać instancjowania obiektów przez new, chyba że sąto listy, słowniki itp
             FriendsList = new ObservableCollection<ListItemViewModel>();

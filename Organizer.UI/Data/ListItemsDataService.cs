@@ -11,13 +11,13 @@ using Organizer.Models;
 
 namespace Organizer.UI.Data
 {
-    public class FriendsDataService : IFriendsDataService
+    public class ListItemsDataService : IListItemsDataService
     {
         private Func<OrganizerDbContext> _dbContextCreator;
 
         // nie można wstrzyknąć instancji dbContext poniważ chcemy tworzy instancje dynamicznie wewnątrz klasy. Każde GetAll musi tworzyć nowy kontekst. Przy zwykłym DI kontext był by stworzony tylko raz.
         // trzeba użyć dynamicznego operatora Func<>
-        public FriendsDataService(Func<OrganizerDbContext> dbContextCreator)
+        public ListItemsDataService(Func<OrganizerDbContext> dbContextCreator)
         {
             _dbContextCreator = dbContextCreator;
         }

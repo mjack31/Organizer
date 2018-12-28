@@ -3,9 +3,10 @@ using System.Threading.Tasks;
 
 namespace Organizer.UI.Data
 {
-    public interface IFriendDetailsDataService
+    public interface IFriendsRepository
     {
         Task<Friend> GetFriendAsync(int id);
-        Task SaveFriendAsync(Friend friend);
+        Task SaveFriendAsync();
+        bool HasChanges();
     }
 }

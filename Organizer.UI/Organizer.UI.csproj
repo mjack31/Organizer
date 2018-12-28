@@ -69,11 +69,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Data\FriendDetailsDataService.cs" />
-    <Compile Include="Data\FriendsDataService.cs" />
-    <Compile Include="Data\IFriendDetailsDataService.cs" />
+    <Compile Include="Data\FriendsRepository.cs" />
+    <Compile Include="Data\ListItemsDataService.cs" />
+    <Compile Include="Data\IFriendsRepository.cs" />
     <Compile Include="Events\FriendChangesSavedEvent.cs" />
     <Compile Include="Events\ListItemChosenEvent.cs" />
+    <Compile Include="Services\IMessageService.cs" />
+    <Compile Include="Services\PopUpMessageService.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\FriendDetailsViewModel.cs" />
     <Compile Include="ViewModels\FriendsListViewModel.cs" />
@@ -97,7 +99,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data\IFriendsDataService.cs" />
+    <Compile Include="Data\IListItemsDataService.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

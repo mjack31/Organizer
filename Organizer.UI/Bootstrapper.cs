@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Organizer.DataAccess;
 using Organizer.UI.Data;
+using Organizer.UI.Services;
 using Organizer.UI.ViewModels;
 using Prism.Events;
 using System;
@@ -21,13 +22,14 @@ namespace Organizer.UI
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
 
             //rejestrowanie klas kontenera
-            builder.RegisterType<FriendsDataService>().As<IFriendsDataService>();
+            builder.RegisterType<ListItemsDataService>().As<IListItemsDataService>();
             builder.RegisterType<MainWindowViewModel>().AsSelf();
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<OrganizerDbContext>().AsSelf();
-            builder.RegisterType<FriendDetailsDataService>().As<IFriendDetailsDataService>();
+            builder.RegisterType<FriendsRepository>().As<IFriendsRepository>();
             builder.RegisterType<FriendsListViewModel>().As<IFriendsListViewModel>();
             builder.RegisterType<FriendDetailsViewModel>().As<IFriendDetailsViewModel>();
+            builder.RegisterType<PopUpMessageService>().As<IMessageService>();
 
             return builder.Build();
         }

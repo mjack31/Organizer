@@ -4,7 +4,7 @@ using Organizer.Models;
 
 namespace Organizer.UI.Data
 {
-    public interface IFriendsDataService
+    public interface IListItemsDataService
     {
         Task<List<ListItem>> GetAllAsync();
     }
