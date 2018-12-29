@@ -18,6 +18,18 @@ namespace Organizer.UI.Data
             _dbContext = dbContext;
         }
 
+        public Friend Add(Friend model)
+        {
+            var friend = _dbContext.Friends.Add(model);
+            return friend;
+        }
+
+        public void Delete(Friend model)
+        {
+            _dbContext.Friends.Remove(model);
+            _dbContext.SaveChanges();
+        }
+
         public async Task<Friend> GetFriendAsync(int id)
         {
             var friend = await _dbContext.Friends.Where(f => f.Id == id).FirstOrDefaultAsync();

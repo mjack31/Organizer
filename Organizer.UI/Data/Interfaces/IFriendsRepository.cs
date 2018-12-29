@@ -8,5 +8,7 @@ namespace Organizer.UI.Data
         Task<Friend> GetFriendAsync(int id);
         Task SaveFriendAsync();
         bool HasChanges();
+        Friend Add(Friend model);
+        void Delete(Friend model);
     }
 }

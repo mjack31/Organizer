@@ -1,5 +1,6 @@
 ﻿using Organizer.UI.Events;
 using Organizer.UI.Services;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Threading.Tasks;
@@ -26,6 +27,13 @@ namespace Organizer.UI.ViewModels
             // ale można zamiast delegaty dodawać normalnie metody - ułatwienie
             // przeniesiony do MainWindow aby można było tworzyć nowy ViewModel dla każdego friendsa, a tym samym nowy dbContext dla każdego friendsa
             _eventAggregator.GetEvent<ListItemChosenEvent>().Subscribe(OnListItemChosen);
+
+            CreateNewFriendCommand = new DelegateCommand(OnCreateNewFriendCommand);
+        }
+
+        private void OnCreateNewFriendCommand()
+        {
+            OnListItemChosen(null);
         }
 
         public async Task LoadDataAsync()
@@ -46,8 +54,8 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        // event handler wybrania danego Friendsa
-        private async void OnListItemChosen(int id)
+        // event handler wybrania danego Friendsa lub tworzenia nowego(jeżeli przekazany jest null)
+        private async void OnListItemChosen(int? id)
         {
             if(FriendDetailsViewModel != null && FriendDetailsViewModel.HasChanges)
             {
@@ -60,5 +68,7 @@ namespace Organizer.UI.ViewModels
             FriendDetailsViewModel = _friendDetailsViewModelCreator();
             await FriendDetailsViewModel.LoadFriendAsync(id);
         }
+
+        public DelegateCommand CreateNewFriendCommand { get; }
     }
 }

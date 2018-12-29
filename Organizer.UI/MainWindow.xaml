@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Organizer.UI"
         xmlns:view="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" FontSize="20">
+        Title="MainWindow" Height="450" Width="800" FontSize="20" BorderBrush="Gainsboro" BorderThickness="2">
     <Window.Resources>
         <Style TargetType="TextBox">
             <!-- Ustawienie tooltipa dla blednie wypelnionych textboxów -->
@@ -33,12 +33,24 @@
     </Window.Resources>
     
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <view:FriendsListView DataContext="{Binding FriendsListViewModel}" />
-        <view:FriendDetailsView Grid.Column="1" DataContext="{Binding FriendDetailsViewModel}" />
+        <Menu Grid.Row="0" Grid.ColumnSpan="2">
+            <MenuItem 
+                Header="Create new Friend"
+                FontSize="20"
+                Margin="5"
+                Command="{Binding CreateNewFriendCommand}"/>
+        </Menu>
+        
+        <view:FriendsListView Grid.Row="1" DataContext="{Binding FriendsListViewModel}" />
+        <view:FriendDetailsView Grid.Row="1" Grid.Column="1" DataContext="{Binding FriendDetailsViewModel}" />
     </Grid>
 </Window>

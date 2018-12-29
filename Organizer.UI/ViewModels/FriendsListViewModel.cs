@@ -2,6 +2,7 @@
 using Organizer.UI.Data;
 using Organizer.UI.Events;
 using Prism.Events;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,13 +22,27 @@ namespace Organizer.UI.ViewModels
             _friendsDataService = friendsDataService;
             _eventAggregator = eventAggregator;
 
-            _eventAggregator.GetEvent<FriendChangesSavedEvent>().Subscribe(_onFriendChangesSavedAsync);
+            _eventAggregator.GetEvent<FriendChangesSavedEvent>().Subscribe(OnFriendChangesSavedAsync);
+            _eventAggregator.GetEvent<FriendDeletedEvent>().Subscribe(OnFriendDeletedEvent);
         }
 
-        private void _onFriendChangesSavedAsync(ListItem friend)
+        private void OnFriendDeletedEvent(int id)
         {
-            var friendToChange = FriendsList.FirstOrDefault(f => f.Id == friend.Id);
-            friendToChange.Name = friend.Name;
+            var friendToDelete = FriendsList.SingleOrDefault(f => f.Id == id);
+            FriendsList.Remove(friendToDelete);
+        }
+
+        private void OnFriendChangesSavedAsync(ListItem friend)
+        {
+            var friendToChange = FriendsList.SingleOrDefault(f => f.Id == friend.Id);
+            if (friendToChange == null)
+            {
+                FriendsList.Add(new ListItemViewModel(friend.Id, friend.Name, _eventAggregator));
+            }
+            else
+            {
+                friendToChange.Name = friend.Name;
+            }
         }
 
         // Aktywna lista która updateuje UI gdy zmienia się jej zawartość

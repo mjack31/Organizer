@@ -16,14 +16,7 @@ namespace Organizer.UI.ViewModels
             Name = name;
             _eventAggregator = eventAggregator;
 
-            SelectItemCommand = new DelegateCommand(OnSelectItemCommand, OnSelectItemCommandCanExecute);
-        }
-
-        // zezwolenie na odpalenie commanda
-        private bool OnSelectItemCommandCanExecute()
-        {
-            // TODO - dodać warunek
-            return true;
+            SelectItemCommand = new DelegateCommand(OnSelectItemCommand);
         }
 
         // Handler commanda wyboru frienda

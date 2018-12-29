@@ -71,16 +71,17 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Data\FriendsRepository.cs" />
     <Compile Include="Data\ListItemsDataService.cs" />
-    <Compile Include="Data\IFriendsRepository.cs" />
+    <Compile Include="Data\Interfaces\IFriendsRepository.cs" />
     <Compile Include="Events\FriendChangesSavedEvent.cs" />
+    <Compile Include="Events\FriendDeletedEvent.cs" />
     <Compile Include="Events\ListItemChosenEvent.cs" />
-    <Compile Include="Services\IMessageService.cs" />
+    <Compile Include="Services\Interfaces\IMessageService.cs" />
     <Compile Include="Services\PopUpMessageService.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\FriendDetailsViewModel.cs" />
     <Compile Include="ViewModels\FriendsListViewModel.cs" />
-    <Compile Include="ViewModels\IFriendDetailsViewModel.cs" />
-    <Compile Include="ViewModels\IFriendsListViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IFriendDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IFriendsListViewModel.cs" />
     <Compile Include="ViewModels\ListItemViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\FriendDetailsView.xaml.cs">
@@ -99,7 +100,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data\IListItemsDataService.cs" />
+    <Compile Include="Data\Interfaces\IListItemsDataService.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

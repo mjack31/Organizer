@@ -4,6 +4,7 @@ using Organizer.UI.Events;
 using Organizer.UI.Wrappers;
 using Prism.Commands;
 using Prism.Events;
+using System;
 using System.Threading.Tasks;
 
 namespace Organizer.UI.ViewModels
@@ -23,6 +24,13 @@ namespace Organizer.UI.ViewModels
             // inicjalizacja property SaveCommand - konstruktor przyjmuje 2 delegaty/metody. Dobrą praktyką jest nazwyać pierwszą z "on" na początku bo to handler
             // a drugą z CanExecute na końcu ponieważ ona zezwala na odpalenie handlera - wyszaża przycisk
             SaveCommand = new DelegateCommand(OnSaveCommand, OnSaveCoommandCanExecute);
+            DeleteCommand = new DelegateCommand(OnDeleteCommand);
+        }
+
+        private void OnDeleteCommand()
+        {
+            _friendDataService.Delete(Friend.Model);
+            _eventAggregator.GetEvent<FriendDeletedEvent>().Publish(Friend.Id);
         }
 
         private async void OnSaveCommand()
@@ -53,12 +61,21 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-
         // ładowanie pełnych danych wybranego przyjaciela
-        public async Task LoadFriendAsync(int friendId)
+        public async Task LoadFriendAsync(int? friendId)
         {
-            var friend = await _friendDataService.GetFriendAsync(friendId);
-            Friend = new FriendWrapper(friend);
+            if (friendId.HasValue)
+            {
+                // normalnie metoda GetFriendAsync nie przyjmuje nullable, ale wystarczy przekazać value friendId i działa
+                var friend = await _friendDataService.GetFriendAsync(friendId.Value);
+                Friend = new FriendWrapper(friend);
+            }
+            else
+            {
+                // tworzenie nowego frienda
+                var friend = CreateNewFriend();
+                Friend = new FriendWrapper(friend);
+            }
 
             Friend.PropertyChanged += (s, e) =>
             {
@@ -67,7 +84,22 @@ namespace Organizer.UI.ViewModels
                 // sprawdzanie kontekstu db czy są zmiany
                 HasChanges = _friendDataService.HasChanges();
             };
+
+            // sztuczka aby zaraz po naciśnięciu przycisku utworzenia nowego frienda odświerzył się widok formularza i pojawiły się wskazówki walidacyjne
+            if (!friendId.HasValue)
+            {
+                Friend.FirstName = "";
+            }
+
+            // sprawdzenie czy można zapisaćzmiany
             SaveCommand.RaiseCanExecuteChanged();
+        }
+
+        private Friend CreateNewFriend()
+        {
+            // stworzenie nowego pustego frienda i przekazanie do do kontekstu db
+            var friend = new Friend();
+            return _friendDataService.Add(friend);
         }
 
         // propery do którego zbindowany jest widok
@@ -85,5 +117,7 @@ namespace Organizer.UI.ViewModels
 
         // command przycisku zapisz zmiany
         public DelegateCommand SaveCommand { get; }
+
+        public DelegateCommand DeleteCommand { get; }
     }
 }

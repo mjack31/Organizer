@@ -2,7 +2,7 @@
 
 namespace Organizer.UI.Events
 {
-    class ListItemChosenEvent : PubSubEvent<int?>
+    public class FriendDeletedEvent : PubSubEvent<int>
     {
     }
 }
