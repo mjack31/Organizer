@@ -1,6 +1,7 @@
 ﻿using Organizer.Models;
 using Organizer.UI.Data;
 using Organizer.UI.Events;
+using Organizer.UI.Services;
 using Organizer.UI.Wrappers;
 using Prism.Commands;
 using Prism.Events;
@@ -14,12 +15,14 @@ namespace Organizer.UI.ViewModels
         private FriendWrapper _friend;
         private IFriendsRepository _friendDataService;
         private IEventAggregator _eventAggregator;
+        private IMessageService _messageService;
 
         // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
-        public FriendDetailsViewModel(IFriendsRepository friendDataService, IEventAggregator eventAggregator)
+        public FriendDetailsViewModel(IFriendsRepository friendDataService, IEventAggregator eventAggregator, IMessageService msgService)
         {
             _friendDataService = friendDataService;
             _eventAggregator = eventAggregator;
+            _messageService = msgService;
 
             // inicjalizacja property SaveCommand - konstruktor przyjmuje 2 delegaty/metody. Dobrą praktyką jest nazwyać pierwszą z "on" na początku bo to handler
             // a drugą z CanExecute na końcu ponieważ ona zezwala na odpalenie handlera - wyszaża przycisk
@@ -29,6 +32,11 @@ namespace Organizer.UI.ViewModels
 
         private void OnDeleteCommand()
         {
+            var result = _messageService.ShowOKCancelMsg("Do you want to delete a friend?");
+            if (!result)
+            {
+                return;
+            }
             _friendDataService.Delete(Friend.Model);
             _eventAggregator.GetEvent<FriendDeletedEvent>().Publish(Friend.Id);
         }
