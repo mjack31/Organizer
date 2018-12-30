@@ -26,25 +26,6 @@ namespace Organizer.UI.ViewModels
             _eventAggregator.GetEvent<FriendDeletedEvent>().Subscribe(OnFriendDeletedEvent);
         }
 
-        private void OnFriendDeletedEvent(int id)
-        {
-            var friendToDelete = FriendsList.SingleOrDefault(f => f.Id == id);
-            FriendsList.Remove(friendToDelete);
-        }
-
-        private void OnFriendChangesSavedAsync(ListItem friend)
-        {
-            var friendToChange = FriendsList.SingleOrDefault(f => f.Id == friend.Id);
-            if (friendToChange == null)
-            {
-                FriendsList.Add(new ListItemViewModel(friend.Id, friend.Name, _eventAggregator));
-            }
-            else
-            {
-                friendToChange.Name = friend.Name;
-            }
-        }
-
         // Aktywna lista która updateuje UI gdy zmienia się jej zawartość
         // Do tego propery zbindowany jest ListView
         public ObservableCollection<ListItemViewModel> FriendsList { get; }
@@ -75,5 +56,24 @@ namespace Organizer.UI.ViewModels
         //        _eventAggregator.GetEvent<ListItemChosenEvent>().Publish(SelectedFriend.Id);
         //    }
         //}
+
+        private void OnFriendDeletedEvent(int id)
+        {
+            var friendToDelete = FriendsList.SingleOrDefault(f => f.Id == id);
+            FriendsList.Remove(friendToDelete);
+        }
+
+        private void OnFriendChangesSavedAsync(ListItem friend)
+        {
+            var friendToChange = FriendsList.SingleOrDefault(f => f.Id == friend.Id);
+            if (friendToChange == null)
+            {
+                FriendsList.Add(new ListItemViewModel(friend.Id, friend.Name, _eventAggregator));
+            }
+            else
+            {
+                friendToChange.Name = friend.Name;
+            }
+        }
     }
 }

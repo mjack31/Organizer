@@ -19,11 +19,8 @@ namespace Organizer.UI.ViewModels
             SelectItemCommand = new DelegateCommand(OnSelectItemCommand);
         }
 
-        // Handler commanda wyboru frienda
-        private void OnSelectItemCommand()
-        {
-            _eventAggregator.GetEvent<ListItemChosenEvent>().Publish(Id);
-        }
+        // command wyboru danego frienda
+        public DelegateCommand SelectItemCommand { get; }
 
         public int Id { get; }
 
@@ -37,7 +34,10 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        // command wyboru danego frienda
-        public DelegateCommand SelectItemCommand { get; }
+        // Handler commanda wyboru frienda
+        private void OnSelectItemCommand()
+        {
+            _eventAggregator.GetEvent<ListItemChosenEvent>().Publish(Id);
+        }
     }
 }

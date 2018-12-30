@@ -32,15 +32,7 @@ namespace Organizer.UI.ViewModels
             CreateNewFriendCommand = new DelegateCommand(OnCreateNewFriendCommand);
         }
 
-        private void OnFriendDeletedEvent(int id)
-        {
-            FriendDetailsViewModel = null;
-        }
-
-        private void OnCreateNewFriendCommand()
-        {
-            OnListItemChosen(null);
-        }
+        public DelegateCommand CreateNewFriendCommand { get; }
 
         public async Task LoadDataAsync()
         {
@@ -75,6 +67,16 @@ namespace Organizer.UI.ViewModels
             await FriendDetailsViewModel.LoadFriendAsync(id);
         }
 
-        public DelegateCommand CreateNewFriendCommand { get; }
+        private void OnFriendDeletedEvent(int id)
+        {
+            FriendDetailsViewModel = null;
+        }
+
+        private void OnCreateNewFriendCommand()
+        {
+            OnListItemChosen(null);
+        }
+
+
     }
 }

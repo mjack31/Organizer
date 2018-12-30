@@ -2,7 +2,7 @@
 
 namespace Organizer.UI.Events
 {
-    class ListItemChosenEvent : PubSubEvent<int?>
+    public class ListItemChosenEvent : PubSubEvent<int?>
     {
     }
 }

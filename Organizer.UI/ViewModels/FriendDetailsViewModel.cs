@@ -16,6 +16,7 @@ namespace Organizer.UI.ViewModels
         private IFriendsRepository _friendDataService;
         private IEventAggregator _eventAggregator;
         private IMessageService _messageService;
+        private bool _hasChanges;
 
         // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
         public FriendDetailsViewModel(IFriendsRepository friendDataService, IEventAggregator eventAggregator, IMessageService msgService)
@@ -30,31 +31,9 @@ namespace Organizer.UI.ViewModels
             DeleteCommand = new DelegateCommand(OnDeleteCommand);
         }
 
-        private void OnDeleteCommand()
-        {
-            var result = _messageService.ShowOKCancelMsg("Do you want to delete a friend?");
-            if (!result)
-            {
-                return;
-            }
-            _friendDataService.Delete(Friend.Model);
-            _eventAggregator.GetEvent<FriendDeletedEvent>().Publish(Friend.Id);
-        }
-
-        private async void OnSaveCommand()
-        {
-            await _friendDataService.SaveFriendAsync();
-            _eventAggregator.GetEvent<FriendChangesSavedEvent>().Publish(new ListItem { Id = Friend.Id, Name = $"{Friend.FirstName} {Friend.LastName}" });
-            // wylączenie przycisku Save po zapisaniu poprzes sprawdzenie zmian w kontekscie
-            HasChanges = _friendDataService.HasChanges();
-        }
-
-        private bool OnSaveCoommandCanExecute()
-        {
-            return Friend != null && !Friend.HasErrors && HasChanges;
-        }
-
-        private bool _hasChanges;
+        // command przycisku zapisz zmiany
+        public DelegateCommand SaveCommand { get; }
+        public DelegateCommand DeleteCommand { get; }
 
         public bool HasChanges
         {
@@ -66,6 +45,19 @@ namespace Organizer.UI.ViewModels
                 OnProperyChanged(nameof(HasChanges));
                 // event odpalany po to aby zaktualizowac przycisk save
                 SaveCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        // propery do którego zbindowany jest widok
+        public FriendWrapper Friend
+        {
+            get { return _friend; }
+            set
+            {
+                _friend = value;
+                // przy każdym setowaniu odpalać ten event aby UI się updateowało
+                // tutaj UI musi wiedzieć że wybrano jakiegoś Frienda i że wybrano innego nawet jeżeli tworzony jest nowy ViewModel
+                OnProperyChanged(nameof(Friend));
             }
         }
 
@@ -103,29 +95,35 @@ namespace Organizer.UI.ViewModels
             SaveCommand.RaiseCanExecuteChanged();
         }
 
+        private void OnDeleteCommand()
+        {
+            var result = _messageService.ShowOKCancelMsg("Do you want to delete a friend?");
+            if (!result)
+            {
+                return;
+            }
+            _friendDataService.Delete(Friend.Model);
+            _eventAggregator.GetEvent<FriendDeletedEvent>().Publish(Friend.Id);
+        }
+
+        private async void OnSaveCommand()
+        {
+            await _friendDataService.SaveFriendAsync();
+            _eventAggregator.GetEvent<FriendChangesSavedEvent>().Publish(new ListItem { Id = Friend.Id, Name = $"{Friend.FirstName} {Friend.LastName}" });
+            // wylączenie przycisku Save po zapisaniu poprzes sprawdzenie zmian w kontekscie
+            HasChanges = _friendDataService.HasChanges();
+        }
+
+        private bool OnSaveCoommandCanExecute()
+        {
+            return Friend != null && !Friend.HasErrors && HasChanges;
+        }
+
         private Friend CreateNewFriend()
         {
             // stworzenie nowego pustego frienda i przekazanie do do kontekstu db
             var friend = new Friend();
             return _friendDataService.Add(friend);
         }
-
-        // propery do którego zbindowany jest widok
-        public FriendWrapper Friend
-        {
-            get { return _friend; }
-            set
-            {
-                _friend = value;
-                // przy każdym setowaniu odpalać ten event aby UI się updateowało
-                // tutaj UI musi wiedzieć że wybrano jakiegoś Frienda i że wybrano innego nawet jeżeli tworzony jest nowy ViewModel
-                OnProperyChanged(nameof(Friend));
-            }
-        }
-
-        // command przycisku zapisz zmiany
-        public DelegateCommand SaveCommand { get; }
-
-        public DelegateCommand DeleteCommand { get; }
     }
 }
