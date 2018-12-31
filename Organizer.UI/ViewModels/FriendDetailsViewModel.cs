@@ -6,6 +6,7 @@ using Organizer.UI.Wrappers;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace Organizer.UI.ViewModels
@@ -16,24 +17,31 @@ namespace Organizer.UI.ViewModels
         private IFriendsRepository _friendDataService;
         private IEventAggregator _eventAggregator;
         private IMessageService _messageService;
+        private IProgLangLookupItemsDataService _progLangDataService;
         private bool _hasChanges;
 
         // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
-        public FriendDetailsViewModel(IFriendsRepository friendDataService, IEventAggregator eventAggregator, IMessageService msgService)
+        public FriendDetailsViewModel(IFriendsRepository friendDataService, IEventAggregator eventAggregator, IMessageService msgService,
+            IProgLangLookupItemsDataService progLangDataService)
         {
             _friendDataService = friendDataService;
             _eventAggregator = eventAggregator;
             _messageService = msgService;
+            _progLangDataService = progLangDataService;
 
             // inicjalizacja property SaveCommand - konstruktor przyjmuje 2 delegaty/metody. Dobrą praktyką jest nazwyać pierwszą z "on" na początku bo to handler
             // a drugą z CanExecute na końcu ponieważ ona zezwala na odpalenie handlera - wyszaża przycisk
             SaveCommand = new DelegateCommand(OnSaveCommand, OnSaveCoommandCanExecute);
             DeleteCommand = new DelegateCommand(OnDeleteCommand);
+
+            ProgLangList = new ObservableCollection<ListItem>();
         }
 
         // command przycisku zapisz zmiany
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand DeleteCommand { get; }
+
+        public ObservableCollection<ListItem> ProgLangList { get; set; }
 
         public bool HasChanges
         {
@@ -64,6 +72,27 @@ namespace Organizer.UI.ViewModels
         // ładowanie pełnych danych wybranego przyjaciela
         public async Task LoadFriendAsync(int? friendId)
         {
+            await LoadFriend(friendId);
+
+            await LoadProgLanguages();
+
+            // sprawdzenie czy można zapisać zmiany
+            SaveCommand.RaiseCanExecuteChanged();
+        }
+
+        private async Task LoadProgLanguages()
+        {
+            var languagesList = await _progLangDataService.GetAllProgLangAsync();
+            ProgLangList.Clear();
+            ProgLangList.Add(new NullListItem { Name = "-" });
+            foreach (var lang in languagesList)
+            {
+                ProgLangList.Add(new ListItem { Id = lang.Id, Name = lang.Name });
+            }
+        }
+
+        private async Task LoadFriend(int? friendId)
+        {
             if (friendId.HasValue)
             {
                 // normalnie metoda GetFriendAsync nie przyjmuje nullable, ale wystarczy przekazać value friendId i działa
@@ -90,9 +119,6 @@ namespace Organizer.UI.ViewModels
             {
                 Friend.FirstName = "";
             }
-
-            // sprawdzenie czy można zapisaćzmiany
-            SaveCommand.RaiseCanExecuteChanged();
         }
 
         private void OnDeleteCommand()

@@ -52,6 +52,14 @@
     <Compile Include="Migrations\201811251833082_InitialDb.Designer.cs">
       <DependentUpon>201811251833082_InitialDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812302108390_Add programing languages entity.cs" />
+    <Compile Include="Migrations\201812302108390_Add programing languages entity.Designer.cs">
+      <DependentUpon>201812302108390_Add programing languages entity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812302315538_Change friends entity.cs" />
+    <Compile Include="Migrations\201812302315538_Change friends entity.Designer.cs">
+      <DependentUpon>201812302315538_Change friends entity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="OrganizerDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +79,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201811251833082_InitialDb.resx">
       <DependentUpon>201811251833082_InitialDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812302108390_Add programing languages entity.resx">
+      <DependentUpon>201812302108390_Add programing languages entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812302315538_Change friends entity.resx">
+      <DependentUpon>201812302315538_Change friends entity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

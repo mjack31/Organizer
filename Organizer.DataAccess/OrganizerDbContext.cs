@@ -18,6 +18,7 @@ namespace Organizer.DataAccess
 
         // lista tablic
         public DbSet<Friend> Friends { get; set; }
+        public DbSet<ProgramingLang> ProgramingLanguages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

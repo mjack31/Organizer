@@ -20,6 +20,13 @@ namespace Organizer.DataAccess.Migrations
                 new Friend { FirstName = "Karl", LastName = "Kek" },
                 new Friend { FirstName = "Anna", LastName = "Klu" }
             );
+
+            context.ProgramingLanguages.AddOrUpdate(f => f.LanguageName,
+                new ProgramingLang { LanguageName = "C#" },
+                new ProgramingLang { LanguageName = "JavaScript" },
+                new ProgramingLang { LanguageName = "Cobol" },
+                new ProgramingLang { LanguageName = "Java" }
+            );
         }
     }
 }

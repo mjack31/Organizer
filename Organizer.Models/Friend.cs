@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Organizer.Models
 {
@@ -20,5 +15,9 @@ namespace Organizer.Models
 
         [StringLength(50)]
         public string Email { get; set; }
+
+        public int? FavoriteLanguageId { get; set; }
+
+        public ProgramingLang FavoriteLanguage { get; set; }
     }
 }

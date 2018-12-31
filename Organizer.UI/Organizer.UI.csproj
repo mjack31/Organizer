@@ -70,7 +70,8 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Data\FriendsRepository.cs" />
-    <Compile Include="Data\ListItemsDataService.cs" />
+    <Compile Include="Data\Interfaces\IProgLangLookupItemsDataService.cs" />
+    <Compile Include="Data\LookupItemsDataService.cs" />
     <Compile Include="Data\Interfaces\IFriendsRepository.cs" />
     <Compile Include="Events\FriendChangesSavedEvent.cs" />
     <Compile Include="Events\FriendDeletedEvent.cs" />
@@ -100,7 +101,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data\Interfaces\IListItemsDataService.cs" />
+    <Compile Include="Data\Interfaces\ILookupItemsDataService.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

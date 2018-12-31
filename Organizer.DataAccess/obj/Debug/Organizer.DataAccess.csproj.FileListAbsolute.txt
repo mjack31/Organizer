@@ -14,3 +14,5 @@ C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAcc
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.InitialDb.resources
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.csproj.GenerateResource.cache
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.Addprograminglanguagesentity.resources
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.Changefriendsentity.resources

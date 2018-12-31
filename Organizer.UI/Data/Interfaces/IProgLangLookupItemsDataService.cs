@@ -4,8 +4,8 @@ using Organizer.Models;
 
 namespace Organizer.UI.Data
 {
-    public interface IListItemsDataService
+    public interface IProgLangLookupItemsDataService
     {
-        Task<List<ListItem>> GetAllAsync();
+        Task<List<ListItem>> GetAllProgLangAsync();
     }
 }

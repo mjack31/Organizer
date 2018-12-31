@@ -11,11 +11,11 @@ namespace Organizer.UI.ViewModels
 {
     public class FriendsListViewModel : BaseViewModel, IFriendsListViewModel
     {
-        private IListItemsDataService _friendsDataService;
+        private ILookupItemsDataService _friendsDataService;
         private IEventAggregator _eventAggregator;
 
         // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
-        public FriendsListViewModel(IListItemsDataService friendsDataService, IEventAggregator eventAggregator)
+        public FriendsListViewModel(ILookupItemsDataService friendsDataService, IEventAggregator eventAggregator)
         {
             // unikać instancjowania obiektów przez new, chyba że sąto listy, słowniki itp
             FriendsList = new ObservableCollection<ListItemViewModel>();
@@ -33,7 +33,7 @@ namespace Organizer.UI.ViewModels
         // ładowanie listy przyjaciół
         public async Task LoadDataAsync()
         {
-            var listItems = await _friendsDataService.GetAllAsync();
+            var listItems = await _friendsDataService.GetAllFriendsAsync();
             FriendsList.Clear(); // Dla pewności zawsze czyścić kolekcję
             foreach (var item in listItems)
             {

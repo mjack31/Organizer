@@ -1,9 +1,5 @@
 ﻿using Organizer.Models;
-using Organizer.UI.ViewModels;
 using System;
-using System.ComponentModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Organizer.UI.Wrappers
 {
@@ -13,6 +9,8 @@ namespace Organizer.UI.Wrappers
         {
             Model = model;
         }
+
+        public Friend Model { get; private set; }
 
         public int Id
         {
@@ -36,19 +34,32 @@ namespace Organizer.UI.Wrappers
             set
             {
                 Model.LastName = value;
+                Validate(nameof(LastName));
+                OnProperyChanged(nameof(LastName));
             }
         }
 
         public string Email
         {
             get { return Model.Email; }
-            set
-            {
+            set {
                 Model.Email = value;
+                Validate(nameof(Email));
+                OnProperyChanged(nameof(Email));
             }
+
         }
 
-        public Friend Model { get; private set; }
+        public int? FavoriteProgLangId
+        {
+            get { return  Model.FavoriteLanguageId; }
+            set
+            {
+                Model.FavoriteLanguageId = value;
+                Validate(nameof(FavoriteProgLangId));
+                OnProperyChanged(nameof(FavoriteProgLangId));
+            }
+        }
 
         private void Validate(string propName)
         {
