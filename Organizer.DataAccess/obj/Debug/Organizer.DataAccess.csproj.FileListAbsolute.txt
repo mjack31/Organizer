@@ -16,3 +16,6 @@ C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAcc
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.csproj.GenerateResource.cache
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.Addprograminglanguagesentity.resources
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.Changefriendsentity.resources
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.Addphonenumberentity.resources
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.Changesinphonenumberentity.resources
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.Changephonenumbersdataannotation.resources

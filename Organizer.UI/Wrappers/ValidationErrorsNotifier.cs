@@ -17,6 +17,9 @@ namespace Organizer.UI.Wrappers
 
         public IEnumerable GetErrors(string propName)
         {
+            if(string.IsNullOrEmpty(propName)) {
+                return null;
+            }
             return _errorsByPropName[propName];
         }
 

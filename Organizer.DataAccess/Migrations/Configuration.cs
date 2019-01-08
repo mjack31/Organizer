@@ -13,7 +13,7 @@ namespace Organizer.DataAccess.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Organizer.DataAccess.OrganizerDbContext context)
+        protected override void Seed(OrganizerDbContext context)
         {
             context.Friends.AddOrUpdate(f => f.FirstName,
                 new Friend { FirstName = "Joe", LastName = "Stone" },
@@ -26,6 +26,13 @@ namespace Organizer.DataAccess.Migrations
                 new ProgramingLang { LanguageName = "JavaScript" },
                 new ProgramingLang { LanguageName = "Cobol" },
                 new ProgramingLang { LanguageName = "Java" }
+            );
+
+            // zapewnienie ¿e przed seedowaniem numerów telefonów s¹ friendsy
+            context.SaveChanges();
+
+            context.PhoneNumbers.AddOrUpdate(f => f.Number, 
+                new PhoneNumber { Number = "609696223", FriendId = context.Friends.FirstOrDefault().Id }
             );
         }
     }

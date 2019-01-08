@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Friend.cs" />
     <Compile Include="ListItem.cs" />
+    <Compile Include="PhoneNumber.cs" />
     <Compile Include="ProgramingLang.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

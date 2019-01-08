@@ -29,7 +29,7 @@ namespace Organizer.UI.Data
 
         public async Task<Friend> GetFriendAsync(int id)
         {
-            var friend = await _dbContext.Friends.Where(f => f.Id == id).FirstOrDefaultAsync();
+            var friend = await _dbContext.Friends.Include("PhoneNumbers").Where(f => f.Id == id).FirstOrDefaultAsync();
             return friend;
         }
 

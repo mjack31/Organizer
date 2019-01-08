@@ -60,6 +60,18 @@
     <Compile Include="Migrations\201812302315538_Change friends entity.Designer.cs">
       <DependentUpon>201812302315538_Change friends entity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901061846574_Add phone number entity.cs" />
+    <Compile Include="Migrations\201901061846574_Add phone number entity.Designer.cs">
+      <DependentUpon>201901061846574_Add phone number entity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901061903348_Changes in phone number entity.cs" />
+    <Compile Include="Migrations\201901061903348_Changes in phone number entity.Designer.cs">
+      <DependentUpon>201901061903348_Changes in phone number entity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901082139368_Change phonenumbers data annotation.cs" />
+    <Compile Include="Migrations\201901082139368_Change phonenumbers data annotation.Designer.cs">
+      <DependentUpon>201901082139368_Change phonenumbers data annotation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="OrganizerDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,6 +97,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812302315538_Change friends entity.resx">
       <DependentUpon>201812302315538_Change friends entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901061846574_Add phone number entity.resx">
+      <DependentUpon>201901061846574_Add phone number entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901061903348_Changes in phone number entity.resx">
+      <DependentUpon>201901061903348_Changes in phone number entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901082139368_Change phonenumbers data annotation.resx">
+      <DependentUpon>201901082139368_Change phonenumbers data annotation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

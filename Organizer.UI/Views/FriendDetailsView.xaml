@@ -13,8 +13,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="5" >
@@ -49,7 +49,30 @@
                       SelectedValue="{Binding Friend.FavoriteProgLangId, Mode=TwoWay}"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="5 25 5 5">
+        <DockPanel Grid.Row="4" Margin="5 25 5 5">
+            <!--Z jakiegoś powodu StackPanel buttonów musi być pierwszy inaczej dokowanie nie działa-->
+            <StackPanel DockPanel.Dock="Right">
+                <Button  Height="30" Width="150"
+                     Margin="5"
+                     Content="Add number"
+                     Command="{Binding AddNumberCommand}" />
+                <Button  Height="30" Width="150"
+                     Margin="5"
+                     Content="Delete number"
+                     Command="{Binding DeleteNumberCommand}" />
+            </StackPanel>
+            <DataGrid ItemsSource="{Binding PhoneNumbers}"
+                          SelectedItem="{Binding SelectedPhoneNumber, Mode=TwoWay}"
+                          AutoGenerateColumns="False"
+                          RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Phone numbers" Width="*"
+                                            Binding="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="5 25 5 5">
             <Button  Height="30" Width="150"
                      Margin="5"
                      Content="Save changes"

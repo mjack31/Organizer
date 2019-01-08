@@ -6,6 +6,7 @@ using Organizer.UI.Wrappers;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -33,13 +34,18 @@ namespace Organizer.UI.ViewModels
             // a drugą z CanExecute na końcu ponieważ ona zezwala na odpalenie handlera - wyszaża przycisk
             SaveCommand = new DelegateCommand(OnSaveCommand, OnSaveCoommandCanExecute);
             DeleteCommand = new DelegateCommand(OnDeleteCommand);
+            AddNumberCommand = new DelegateCommand(OnAddNumberCommand);
+            DeleteNumberCommand = new DelegateCommand(OnDeleteNumberCommand, OnDeleteNumberCommandCanExecute);
 
             ProgLangList = new ObservableCollection<ListItem>();
+            PhoneNumbers = new ObservableCollection<PhoneNumberWrapper>();
         }
 
         // command przycisku zapisz zmiany
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand DeleteCommand { get; }
+        public DelegateCommand AddNumberCommand { get; }
+        public DelegateCommand DeleteNumberCommand { get; }
 
         public ObservableCollection<ListItem> ProgLangList { get; set; }
 
@@ -69,6 +75,21 @@ namespace Organizer.UI.ViewModels
             }
         }
 
+        public ObservableCollection<PhoneNumberWrapper> PhoneNumbers { get; set; }
+
+        private PhoneNumberWrapper _selectedPhoneNumber;
+
+        public PhoneNumberWrapper SelectedPhoneNumberr
+        {
+            get { return _selectedPhoneNumber; }
+            set
+            {
+                _selectedPhoneNumber = value;
+                OnProperyChanged(nameof(SelectedPhoneNumberr));
+            }
+        }
+
+
         // ładowanie pełnych danych wybranego przyjaciela
         public async Task LoadFriendAsync(int? friendId)
         {
@@ -76,8 +97,26 @@ namespace Organizer.UI.ViewModels
 
             await LoadProgLanguages();
 
+            LoadPhoneNumbers();
+
             // sprawdzenie czy można zapisać zmiany
             SaveCommand.RaiseCanExecuteChanged();
+        }
+
+        private void LoadPhoneNumbers()
+        {
+           PhoneNumbers.Clear();
+           foreach (var number in Friend.PhoneNumbers)
+           {
+                var wrappedNumber = new PhoneNumberWrapper(number);
+                wrappedNumber.PropertyChanged += WrappedNumber_PropertyChanged;
+                PhoneNumbers.Add(wrappedNumber);
+           }
+        }
+
+        private void WrappedNumber_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            
         }
 
         private async Task LoadProgLanguages()
@@ -150,6 +189,22 @@ namespace Organizer.UI.ViewModels
             // stworzenie nowego pustego frienda i przekazanie do do kontekstu db
             var friend = new Friend();
             return _friendDataService.Add(friend);
+        }
+
+        private void OnDeleteNumberCommand()
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool OnDeleteNumberCommandCanExecute()
+        {
+            // TODO - dodać warunek
+            return true;
+        }
+
+        private void OnAddNumberCommand()
+        {
+            throw new NotImplementedException();
         }
     }
 }

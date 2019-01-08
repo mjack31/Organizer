@@ -1,9 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Organizer.Models
 {
     public class Friend
     {
+        public Friend()
+        {
+            PhoneNumbers = new List<PhoneNumber>();
+        }
+
         public int Id { get; set; }
 
         [Required]
@@ -19,5 +25,7 @@ namespace Organizer.Models
         public int? FavoriteLanguageId { get; set; }
 
         public ProgramingLang FavoriteLanguage { get; set; }
+
+        public List<PhoneNumber> PhoneNumbers { get; set; }
     }
 }

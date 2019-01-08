@@ -1,5 +1,6 @@
 ﻿using Organizer.Models;
 using System;
+using System.Collections.Generic;
 
 namespace Organizer.UI.Wrappers
 {
@@ -61,6 +62,16 @@ namespace Organizer.UI.Wrappers
             }
         }
 
+        public List<PhoneNumber> PhoneNumbers
+        {
+            get { return Model.PhoneNumbers; }
+            set
+            {
+                Model.PhoneNumbers = value;
+            }
+        }
+
+
         private void Validate(string propName)
         {
             ClearErrors(propName);
@@ -73,6 +84,10 @@ namespace Organizer.UI.Wrappers
                     }
                     break;
                 case nameof(LastName):
+                    if (string.Equals(LastName, "", StringComparison.OrdinalIgnoreCase))
+                    {
+                        AddError(nameof(LastName), "To pole nie może być puste");
+                    }
                     break;
                 case nameof(Email):
                     break;

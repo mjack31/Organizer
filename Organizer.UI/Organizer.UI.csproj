@@ -92,6 +92,7 @@
       <DependentUpon>FriendsListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wrappers\FriendWrapper.cs" />
+    <Compile Include="Wrappers\PhoneNumberWrapper.cs" />
     <Compile Include="Wrappers\ValidationErrorsNotifier.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
