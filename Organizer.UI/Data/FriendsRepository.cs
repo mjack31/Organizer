@@ -38,6 +38,11 @@ namespace Organizer.UI.Data
             return _dbContext.ChangeTracker.HasChanges();
         }
 
+        public void RemovePhoneNumber(PhoneNumber numberToDel)
+        {
+            _dbContext.PhoneNumbers.Remove(numberToDel);
+        }
+
         public async Task SaveFriendAsync()
         {
             await _dbContext.SaveChangesAsync();

@@ -62,12 +62,12 @@
                      Command="{Binding DeleteNumberCommand}" />
             </StackPanel>
             <DataGrid ItemsSource="{Binding PhoneNumbers}"
-                          SelectedItem="{Binding SelectedPhoneNumber, Mode=TwoWay}"
-                          AutoGenerateColumns="False"
-                          RowHeaderWidth="0">
+                      SelectedItem="{Binding SelectedPhoneNumber, Mode=TwoWay}"
+                      AutoGenerateColumns="False"
+                      RowHeaderWidth="0">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Phone numbers" Width="*"
-                                            Binding="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"/>
+                                        Binding="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>

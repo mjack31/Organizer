@@ -9,6 +9,7 @@ using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Organizer.UI.ViewModels
 {
@@ -19,6 +20,7 @@ namespace Organizer.UI.ViewModels
         private IEventAggregator _eventAggregator;
         private IMessageService _messageService;
         private IProgLangLookupItemsDataService _progLangDataService;
+        private PhoneNumberWrapper _selectedPhoneNumber;
         private bool _hasChanges;
 
         // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
@@ -48,6 +50,7 @@ namespace Organizer.UI.ViewModels
         public DelegateCommand DeleteNumberCommand { get; }
 
         public ObservableCollection<ListItem> ProgLangList { get; set; }
+        public ObservableCollection<PhoneNumberWrapper> PhoneNumbers { get; set; }
 
         public bool HasChanges
         {
@@ -75,17 +78,14 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        public ObservableCollection<PhoneNumberWrapper> PhoneNumbers { get; set; }
-
-        private PhoneNumberWrapper _selectedPhoneNumber;
-
-        public PhoneNumberWrapper SelectedPhoneNumberr
+        public PhoneNumberWrapper SelectedPhoneNumber
         {
             get { return _selectedPhoneNumber; }
             set
             {
                 _selectedPhoneNumber = value;
-                OnProperyChanged(nameof(SelectedPhoneNumberr));
+                OnProperyChanged(nameof(SelectedPhoneNumber));
+                DeleteNumberCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -116,7 +116,8 @@ namespace Organizer.UI.ViewModels
 
         private void WrappedNumber_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            
+            SaveCommand.RaiseCanExecuteChanged();
+            HasChanges = _friendDataService.HasChanges();
         }
 
         private async Task LoadProgLanguages()
@@ -181,7 +182,7 @@ namespace Organizer.UI.ViewModels
 
         private bool OnSaveCoommandCanExecute()
         {
-            return Friend != null && !Friend.HasErrors && HasChanges;
+            return Friend != null && !Friend.HasErrors && HasChanges && !PhoneNumbers.Any(f => f.HasErrors);
         }
 
         private Friend CreateNewFriend()
@@ -193,18 +194,22 @@ namespace Organizer.UI.ViewModels
 
         private void OnDeleteNumberCommand()
         {
-            throw new NotImplementedException();
+            var numberToDel = Friend.Model.PhoneNumbers.Where(f => f.Number == SelectedPhoneNumber.Number).FirstOrDefault();
+            _friendDataService.RemovePhoneNumber(numberToDel);
+            LoadPhoneNumbers();
+            HasChanges = _friendDataService.HasChanges();
         }
 
         private bool OnDeleteNumberCommandCanExecute()
         {
-            // TODO - dodać warunek
-            return true;
+            return SelectedPhoneNumber != null;
         }
 
         private void OnAddNumberCommand()
         {
-            throw new NotImplementedException();
+            var newNumber = new PhoneNumber();
+            Friend.Model.PhoneNumbers.Add(newNumber);
+            LoadPhoneNumbers();
         }
     }
 }
