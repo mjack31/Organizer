@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Linq;
+using Organizer.UI.ViewModels.Interfaces;
 
 namespace Organizer.UI.ViewModels
 {
@@ -169,13 +170,18 @@ namespace Organizer.UI.ViewModels
                 return;
             }
             _friendDataService.Delete(Friend.Model);
-            _eventAggregator.GetEvent<FriendDeletedEvent>().Publish(Friend.Id);
+            _eventAggregator.GetEvent<DetailDeletedEvent>().Publish(new DetailDeletedEventArgs { Id = Friend.Id, ViewModelName = nameof(Friend)});
         }
 
         private async void OnSaveCommand()
         {
             await _friendDataService.SaveFriendAsync();
-            _eventAggregator.GetEvent<FriendChangesSavedEvent>().Publish(new ListItem { Id = Friend.Id, Name = $"{Friend.FirstName} {Friend.LastName}" });
+            _eventAggregator.GetEvent<DetailChangesSavedEvent>().Publish(new DetailChangesSavedEventArgs
+            {
+                Id = Friend.Id,
+                Name = $"{Friend.FirstName} {Friend.LastName}",
+                ViewModelName = nameof(Friend)
+            });
             // wylączenie przycisku Save po zapisaniu poprzes sprawdzenie zmian w kontekscie
             HasChanges = _friendDataService.HasChanges();
         }

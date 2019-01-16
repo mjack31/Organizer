@@ -1,10 +1,10 @@
 ﻿using Organizer.UI.Events;
 using Organizer.UI.Services;
+using Organizer.UI.ViewModels.Interfaces;
 using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace Organizer.UI.ViewModels
 {
@@ -13,7 +13,7 @@ namespace Organizer.UI.ViewModels
         private IEventAggregator _eventAggregator;
         private Func<IFriendDetailsViewModel> _friendDetailsViewModelCreator;
         private IMessageService _messageService;
-        private IFriendDetailsViewModel _friendDetailsViewModel;
+        private IDetailsViewModel _detailsViewModel;
 
         public MainWindowViewModel(IFriendsListViewModel friendsListViewModel, Func<IFriendDetailsViewModel> friendDetailsViewModelCreator, 
             IEventAggregator eventAggregator, IMessageService msgService)
@@ -27,7 +27,7 @@ namespace Organizer.UI.ViewModels
             // ale można zamiast delegaty dodawać normalnie metody - ułatwienie
             // przeniesiony do MainWindow aby można było tworzyć nowy ViewModel dla każdego friendsa, a tym samym nowy dbContext dla każdego friendsa
             _eventAggregator.GetEvent<ListItemChosenEvent>().Subscribe(OnListItemChosen);
-            _eventAggregator.GetEvent<FriendDeletedEvent>().Subscribe(OnFriendDeletedEvent);
+            _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnFriendDeletedEvent);
 
             CreateNewFriendCommand = new DelegateCommand(OnCreateNewFriendCommand);
         }
@@ -41,21 +41,22 @@ namespace Organizer.UI.ViewModels
 
         public IFriendsListViewModel FriendsListViewModel { get; }
         
-        public IFriendDetailsViewModel FriendDetailsViewModel
+        // Uniwersalna zmienna przechowująca view modele friendsów i spotkan
+        public IDetailsViewModel DetailsViewModel
         {
-            get { return _friendDetailsViewModel; }
+            get { return _detailsViewModel; }
             set
             {
-                _friendDetailsViewModel = value;
+                _detailsViewModel = value;
                 // odpalić trzeba OnPropertyChanged ponieważ w widoku podpięty do tej zmiennej jest DataContext
-                OnProperyChanged(nameof(FriendDetailsViewModel));
+                OnProperyChanged(nameof(DetailsViewModel));
             }
         }
 
         // event handler wybrania danego Friendsa lub tworzenia nowego(jeżeli przekazany jest null)
-        private async void OnListItemChosen(int? id)
+        private async void OnListItemChosen(ListItemChosenEventArgs eventArgs)
         {
-            if(FriendDetailsViewModel != null && FriendDetailsViewModel.HasChanges)
+            if(DetailsViewModel != null && DetailsViewModel.HasChanges)
             {
                 var result = _messageService.ShowOKCancelMsg("This friend has changes. Do you want to change a friend?");
                 if (!result)
@@ -63,13 +64,10 @@ namespace Organizer.UI.ViewModels
                     return;
                 }
             }
-            FriendDetailsViewModel = _friendDetailsViewModelCreator();
-            await FriendDetailsViewModel.LoadFriendAsync(id);
-        }
-
-        private void OnFriendDeletedEvent(int id)
-        {
-            FriendDetailsViewModel = null;
+            // stworzenie viewModelu - mimo ze DetailsViewModel jest typu IDetailsViewModel (rzutowanie klasy na interfejs) to przechowuje 
+            // ona instancję FriendDetailsViewModel i dzięki temu dobrze się to wyświetla w ContenContro MainWindow
+            DetailsViewModel = _friendDetailsViewModelCreator();
+            await DetailsViewModel.LoadFriendAsync(eventArgs.Id);
         }
 
         private void OnCreateNewFriendCommand()
@@ -77,6 +75,9 @@ namespace Organizer.UI.ViewModels
             OnListItemChosen(null);
         }
 
-
+        private void OnFriendDeletedEvent(DetailDeletedEventArgs obj)
+        {
+            DetailsViewModel = null;
+        }
     }
 }

@@ -73,14 +73,15 @@
     <Compile Include="Data\Interfaces\IProgLangLookupItemsDataService.cs" />
     <Compile Include="Data\LookupItemsDataService.cs" />
     <Compile Include="Data\Interfaces\IFriendsRepository.cs" />
-    <Compile Include="Events\FriendChangesSavedEvent.cs" />
-    <Compile Include="Events\FriendDeletedEvent.cs" />
+    <Compile Include="Events\DetailChangesSavedEvent.cs" />
+    <Compile Include="Events\DetailDeletedEvent.cs" />
     <Compile Include="Events\ListItemChosenEvent.cs" />
     <Compile Include="Services\Interfaces\IMessageService.cs" />
     <Compile Include="Services\PopUpMessageService.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\FriendDetailsViewModel.cs" />
     <Compile Include="ViewModels\FriendsListViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IDetailsViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IFriendDetailsViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IFriendsListViewModel.cs" />
     <Compile Include="ViewModels\ListItemViewModel.cs" />

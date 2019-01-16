@@ -22,8 +22,8 @@ namespace Organizer.UI.ViewModels
             _friendsDataService = friendsDataService;
             _eventAggregator = eventAggregator;
 
-            _eventAggregator.GetEvent<FriendChangesSavedEvent>().Subscribe(OnFriendChangesSavedAsync);
-            _eventAggregator.GetEvent<FriendDeletedEvent>().Subscribe(OnFriendDeletedEvent);
+            _eventAggregator.GetEvent<DetailChangesSavedEvent>().Subscribe(OnFriendChangesSaved);
+            _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnFriendDeletedEvent);
         }
 
         // Aktywna lista która updateuje UI gdy zmienia się jej zawartość
@@ -37,7 +37,7 @@ namespace Organizer.UI.ViewModels
             FriendsList.Clear(); // Dla pewności zawsze czyścić kolekcję
             foreach (var item in listItems)
             {
-                var friend = new ListItemViewModel(item.Id, item.Name, _eventAggregator);
+                var friend = new ListItemViewModel(item.Id, item.Name, _eventAggregator, nameof(FriendDetailsViewModel));
                 FriendsList.Add(friend);
             }
         }
@@ -57,22 +57,22 @@ namespace Organizer.UI.ViewModels
         //    }
         //}
 
-        private void OnFriendDeletedEvent(int id)
+        private void OnFriendDeletedEvent(DetailDeletedEventArgs eventArgs)
         {
-            var friendToDelete = FriendsList.SingleOrDefault(f => f.Id == id);
+            var friendToDelete = FriendsList.SingleOrDefault(f => f.Id == eventArgs.Id);
             FriendsList.Remove(friendToDelete);
         }
 
-        private void OnFriendChangesSavedAsync(ListItem friend)
+        private void OnFriendChangesSaved(DetailChangesSavedEventArgs eventArgs)
         {
-            var friendToChange = FriendsList.SingleOrDefault(f => f.Id == friend.Id);
+            var friendToChange = FriendsList.SingleOrDefault(f => f.Id == eventArgs.Id);
             if (friendToChange == null)
             {
-                FriendsList.Add(new ListItemViewModel(friend.Id, friend.Name, _eventAggregator));
+                FriendsList.Add(new ListItemViewModel(eventArgs.Id, eventArgs.Name, _eventAggregator, nameof(FriendDetailsViewModel)));
             }
             else
             {
-                friendToChange.Name = friend.Name;
+                friendToChange.Name = eventArgs.Name;
             }
         }
     }

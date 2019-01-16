@@ -3,12 +3,8 @@ using Organizer.DataAccess;
 using Organizer.UI.Data;
 using Organizer.UI.Services;
 using Organizer.UI.ViewModels;
+using Organizer.UI.ViewModels.Interfaces;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Organizer.UI
 {

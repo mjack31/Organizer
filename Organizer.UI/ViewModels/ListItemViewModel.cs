@@ -8,13 +8,18 @@ namespace Organizer.UI.ViewModels
     public class ListItemViewModel : BaseViewModel
     {
         private IEventAggregator _eventAggregator;
+        private string _viewModelName;
         private string _name;
 
-        public ListItemViewModel(int id, string name, IEventAggregator eventAggregator)
+        public ListItemViewModel(int id, string name, IEventAggregator eventAggregator, string viewModelName)
         {
             Id = id;
             Name = name;
             _eventAggregator = eventAggregator;
+
+            // można było po prostu zrobić np. nameof(FriendDetailsViewModel) w tej klasie ale 
+            // przekazywany jest do kontruktora bo klasa ListItemViemModel jest uniwersalna
+            _viewModelName = viewModelName;
 
             SelectItemCommand = new DelegateCommand(OnSelectItemCommand);
         }
@@ -37,7 +42,7 @@ namespace Organizer.UI.ViewModels
         // Handler commanda wyboru frienda
         private void OnSelectItemCommand()
         {
-            _eventAggregator.GetEvent<ListItemChosenEvent>().Publish(Id);
+            _eventAggregator.GetEvent<ListItemChosenEvent>().Publish(new ListItemChosenEventArgs { Id = Id, ViewModelName = _viewModelName });
         }
     }
 }
