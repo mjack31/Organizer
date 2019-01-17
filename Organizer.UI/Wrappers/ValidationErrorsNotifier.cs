@@ -20,7 +20,11 @@ namespace Organizer.UI.Wrappers
             if(string.IsNullOrEmpty(propName)) {
                 return null;
             }
-            return _errorsByPropName[propName];
+            if (_errorsByPropName.ContainsKey(propName))
+            {
+                return _errorsByPropName[propName];
+            }
+            return null;
         }
 
         public void OnErrorsChanged(string propName)
@@ -43,12 +47,11 @@ namespace Organizer.UI.Wrappers
 
         protected void ClearErrors(string propName)
         {
-            //if (_errorsByPropName.ContainsKey(propName))
-            //{
-            //    _errorsByPropName[propName].Clear();
-            //}
+            if (_errorsByPropName.ContainsKey(propName))
+            {
+                _errorsByPropName.Remove(propName);
+            }
             // Potrzebne jest pełne czyśżczenie ponieważ HasError jest na true nawet gdy obiekt(property np FirstName) jest pusty
-            _errorsByPropName.Clear();
         }
     }
 }

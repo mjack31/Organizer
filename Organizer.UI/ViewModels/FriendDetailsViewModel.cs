@@ -158,7 +158,8 @@ namespace Organizer.UI.ViewModels
             // sztuczka aby zaraz po naciśnięciu przycisku utworzenia nowego frienda odświerzył się widok formularza i pojawiły się wskazówki walidacyjne
             if (!friendId.HasValue)
             {
-                Friend.FirstName = "";
+                Friend.LastName = "";
+                Friend.FirstName = "";   
             }
         }
 

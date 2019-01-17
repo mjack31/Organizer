@@ -27,7 +27,7 @@ namespace Organizer.UI.ViewModels
             // ale można zamiast delegaty dodawać normalnie metody - ułatwienie
             // przeniesiony do MainWindow aby można było tworzyć nowy ViewModel dla każdego friendsa, a tym samym nowy dbContext dla każdego friendsa
             _eventAggregator.GetEvent<ListItemChosenEvent>().Subscribe(OnListItemChosen);
-            _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnFriendDeletedEvent);
+            _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeletedEvent);
 
             CreateNewFriendCommand = new DelegateCommand(OnCreateNewFriendCommand);
         }
@@ -72,10 +72,10 @@ namespace Organizer.UI.ViewModels
 
         private void OnCreateNewFriendCommand()
         {
-            OnListItemChosen(null);
+            OnListItemChosen(new ListItemChosenEventArgs { ViewModelName = nameof(FriendDetailsViewModel) });
         }
 
-        private void OnFriendDeletedEvent(DetailDeletedEventArgs obj)
+        private void OnDetailDeletedEvent(DetailDeletedEventArgs obj)
         {
             DetailsViewModel = null;
         }
