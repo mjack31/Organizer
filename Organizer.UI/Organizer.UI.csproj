@@ -70,6 +70,8 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Data\FriendsRepository.cs" />
+    <Compile Include="Data\GenericRepository.cs" />
+    <Compile Include="Data\Interfaces\IGenericRepository.cs" />
     <Compile Include="Data\Interfaces\IProgLangLookupItemsDataService.cs" />
     <Compile Include="Data\LookupItemsDataService.cs" />
     <Compile Include="Data\Interfaces\IFriendsRepository.cs" />

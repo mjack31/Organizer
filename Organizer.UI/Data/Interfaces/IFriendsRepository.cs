@@ -1,15 +1,9 @@
 ﻿using Organizer.Models;
-using System.Threading.Tasks;
 
 namespace Organizer.UI.Data
 {
-    public interface IFriendsRepository
+    public interface IFriendsRepository<TEntity> : IGenericRepository<TEntity>
     {
-        Task<Friend> GetFriendAsync(int id);
-        Task SaveFriendAsync();
-        bool HasChanges();
-        Friend Add(Friend model);
-        void Delete(Friend model);
         void RemovePhoneNumber(PhoneNumber numberToDel);
     }
 }

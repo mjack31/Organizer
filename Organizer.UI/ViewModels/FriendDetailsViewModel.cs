@@ -17,7 +17,7 @@ namespace Organizer.UI.ViewModels
     public class FriendDetailsViewModel : BaseViewModel, IFriendDetailsViewModel
     {
         private FriendWrapper _friend;
-        private IFriendsRepository _friendDataService;
+        private IFriendsRepository<Friend> _friendDataService;
         private IEventAggregator _eventAggregator;
         private IMessageService _messageService;
         private IProgLangLookupItemsDataService _progLangDataService;
@@ -25,7 +25,7 @@ namespace Organizer.UI.ViewModels
         private bool _hasChanges;
 
         // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
-        public FriendDetailsViewModel(IFriendsRepository friendDataService, IEventAggregator eventAggregator, IMessageService msgService,
+        public FriendDetailsViewModel(IFriendsRepository<Friend> friendDataService, IEventAggregator eventAggregator, IMessageService msgService,
             IProgLangLookupItemsDataService progLangDataService)
         {
             _friendDataService = friendDataService;
@@ -137,7 +137,7 @@ namespace Organizer.UI.ViewModels
             if (friendId.HasValue)
             {
                 // normalnie metoda GetFriendAsync nie przyjmuje nullable, ale wystarczy przekazać value friendId i działa
-                var friend = await _friendDataService.GetFriendAsync(friendId.Value);
+                var friend = await _friendDataService.GetAsync(friendId.Value);
                 Friend = new FriendWrapper(friend);
             }
             else
@@ -176,7 +176,7 @@ namespace Organizer.UI.ViewModels
 
         private async void OnSaveCommand()
         {
-            await _friendDataService.SaveFriendAsync();
+            await _friendDataService.SaveAsync();
             _eventAggregator.GetEvent<DetailChangesSavedEvent>().Publish(new DetailChangesSavedEventArgs
             {
                 Id = Friend.Id,

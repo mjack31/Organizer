@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.DataAccess;
+using Organizer.Models;
 using Organizer.UI.Data;
 using Organizer.UI.Services;
 using Organizer.UI.ViewModels;
@@ -22,7 +23,7 @@ namespace Organizer.UI
             builder.RegisterType<MainWindowViewModel>().AsSelf();
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<OrganizerDbContext>().AsSelf();
-            builder.RegisterType<FriendsRepository>().As<IFriendsRepository>();
+            builder.RegisterType<FriendsRepository>().As<IFriendsRepository<Friend>>();
             builder.RegisterType<FriendsListViewModel>().As<IFriendsListViewModel>();
             builder.RegisterType<FriendDetailsViewModel>().As<IFriendDetailsViewModel>();
             builder.RegisterType<PopUpMessageService>().As<IMessageService>();
