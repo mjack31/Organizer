@@ -5,7 +5,7 @@ using System;
 
 namespace Organizer.UI.ViewModels
 {
-    public class ListItemViewModel : BaseViewModel
+    public class ListItemViewModel : ViewModelBase
     {
         private IEventAggregator _eventAggregator;
         private string _viewModelName;

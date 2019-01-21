@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Organizer.UI.ViewModels
 {
-    public class MainWindowViewModel : BaseViewModel
+    public class MainWindowViewModel : ViewModelBase
     {
         private IEventAggregator _eventAggregator;
         private Func<IFriendDetailsViewModel> _friendDetailsViewModelCreator;
@@ -67,7 +67,7 @@ namespace Organizer.UI.ViewModels
             // stworzenie viewModelu - mimo ze DetailsViewModel jest typu IDetailsViewModel (rzutowanie klasy na interfejs) to przechowuje 
             // ona instancję FriendDetailsViewModel i dzięki temu dobrze się to wyświetla w ContenContro MainWindow
             DetailsViewModel = _friendDetailsViewModelCreator();
-            await DetailsViewModel.LoadFriendAsync(eventArgs.Id);
+            await DetailsViewModel.LoadDetailAsync(eventArgs.Id);
         }
 
         private void OnCreateNewFriendCommand()

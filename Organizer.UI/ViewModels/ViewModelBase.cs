@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Organizer.UI.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

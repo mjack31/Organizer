@@ -5,6 +5,6 @@ namespace Organizer.UI.ViewModels
     public interface IDetailsViewModel
     {
         bool HasChanges { get; set; }
-        Task LoadFriendAsync(int? id);
+        Task LoadDetailAsync(int? id);
     }
 }

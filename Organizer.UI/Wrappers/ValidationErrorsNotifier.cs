@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Organizer.UI.Wrappers
 {
-    public class ValidationErrorsNotifier : BaseViewModel, INotifyDataErrorInfo
+    public class ValidationErrorsNotifier : ViewModelBase, INotifyDataErrorInfo
     {
         private Dictionary<string, List<string>> _errorsByPropName = new Dictionary<string, List<string>>();
 

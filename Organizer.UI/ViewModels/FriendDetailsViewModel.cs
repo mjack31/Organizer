@@ -5,7 +5,6 @@ using Organizer.UI.Services;
 using Organizer.UI.Wrappers;
 using Prism.Commands;
 using Prism.Events;
-using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -14,29 +13,26 @@ using Organizer.UI.ViewModels.Interfaces;
 
 namespace Organizer.UI.ViewModels
 {
-    public class FriendDetailsViewModel : BaseViewModel, IFriendDetailsViewModel
+    public class FriendDetailsViewModel : DetailViewModelBase, IFriendDetailsViewModel
     {
         private FriendWrapper _friend;
         private IFriendsRepository<Friend> _friendDataService;
-        private IEventAggregator _eventAggregator;
         private IMessageService _messageService;
         private IProgLangLookupItemsDataService _progLangDataService;
         private PhoneNumberWrapper _selectedPhoneNumber;
-        private bool _hasChanges;
+        
 
         // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
-        public FriendDetailsViewModel(IFriendsRepository<Friend> friendDataService, IEventAggregator eventAggregator, IMessageService msgService,
-            IProgLangLookupItemsDataService progLangDataService)
+        public FriendDetailsViewModel(IFriendsRepository<Friend> friendDataService, IMessageService msgService, IProgLangLookupItemsDataService progLangDataService,
+            IEventAggregator eventAggregator) : base(eventAggregator)
         {
             _friendDataService = friendDataService;
-            _eventAggregator = eventAggregator;
+            
             _messageService = msgService;
             _progLangDataService = progLangDataService;
 
             // inicjalizacja property SaveCommand - konstruktor przyjmuje 2 delegaty/metody. Dobrą praktyką jest nazwyać pierwszą z "on" na początku bo to handler
             // a drugą z CanExecute na końcu ponieważ ona zezwala na odpalenie handlera - wyszaża przycisk
-            SaveCommand = new DelegateCommand(OnSaveCommand, OnSaveCoommandCanExecute);
-            DeleteCommand = new DelegateCommand(OnDeleteCommand);
             AddNumberCommand = new DelegateCommand(OnAddNumberCommand);
             DeleteNumberCommand = new DelegateCommand(OnDeleteNumberCommand, OnDeleteNumberCommandCanExecute);
 
@@ -44,27 +40,11 @@ namespace Organizer.UI.ViewModels
             PhoneNumbers = new ObservableCollection<PhoneNumberWrapper>();
         }
 
-        // command przycisku zapisz zmiany
-        public DelegateCommand SaveCommand { get; }
-        public DelegateCommand DeleteCommand { get; }
         public DelegateCommand AddNumberCommand { get; }
         public DelegateCommand DeleteNumberCommand { get; }
 
         public ObservableCollection<ListItem> ProgLangList { get; set; }
         public ObservableCollection<PhoneNumberWrapper> PhoneNumbers { get; set; }
-
-        public bool HasChanges
-        {
-            get { return _hasChanges; }
-            set
-            {
-                _hasChanges = value;
-                // informacja o zmianie tego prop raczej nie potrzebna bo i tak jest odpalany event RaiseCanExecuteChanged
-                OnProperyChanged(nameof(HasChanges));
-                // event odpalany po to aby zaktualizowac przycisk save
-                SaveCommand.RaiseCanExecuteChanged();
-            }
-        }
 
         // propery do którego zbindowany jest widok
         public FriendWrapper Friend
@@ -90,9 +70,8 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-
         // ładowanie pełnych danych wybranego przyjaciela
-        public async Task LoadFriendAsync(int? friendId)
+        public override async Task LoadDetailAsync(int? friendId)
         {
             await LoadFriend(friendId);
 
@@ -104,15 +83,44 @@ namespace Organizer.UI.ViewModels
             SaveCommand.RaiseCanExecuteChanged();
         }
 
+        protected override void OnDeleteCommand()
+        {
+            var result = _messageService.ShowOKCancelMsg("Do you want to delete a friend?");
+            if (!result)
+            {
+                return;
+            }
+            _friendDataService.Delete(Friend.Model);
+            _eventAggregator.GetEvent<DetailDeletedEvent>().Publish(new DetailDeletedEventArgs { Id = Friend.Id, ViewModelName = nameof(Friend)});
+        }
+
+        protected override async void OnSaveCommand()
+        {
+            await _friendDataService.SaveAsync();
+            _eventAggregator.GetEvent<DetailChangesSavedEvent>().Publish(new DetailChangesSavedEventArgs
+            {
+                Id = Friend.Id,
+                Name = $"{Friend.FirstName} {Friend.LastName}",
+                ViewModelName = nameof(Friend)
+            });
+            // wylączenie przycisku Save po zapisaniu poprzes sprawdzenie zmian w kontekscie
+            HasChanges = _friendDataService.HasChanges();
+        }
+
+        protected override bool OnSaveCoommandCanExecute()
+        {
+            return Friend != null && !Friend.HasErrors && HasChanges && !PhoneNumbers.Any(f => f.HasErrors);
+        }
+
         private void LoadPhoneNumbers()
         {
-           PhoneNumbers.Clear();
-           foreach (var number in Friend.PhoneNumbers)
-           {
+            PhoneNumbers.Clear();
+            foreach (var number in Friend.PhoneNumbers)
+            {
                 var wrappedNumber = new PhoneNumberWrapper(number);
                 wrappedNumber.PropertyChanged += WrappedNumber_PropertyChanged;
                 PhoneNumbers.Add(wrappedNumber);
-           }
+            }
         }
 
         private void WrappedNumber_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -159,37 +167,8 @@ namespace Organizer.UI.ViewModels
             if (!friendId.HasValue)
             {
                 Friend.LastName = "";
-                Friend.FirstName = "";   
+                Friend.FirstName = "";
             }
-        }
-
-        private void OnDeleteCommand()
-        {
-            var result = _messageService.ShowOKCancelMsg("Do you want to delete a friend?");
-            if (!result)
-            {
-                return;
-            }
-            _friendDataService.Delete(Friend.Model);
-            _eventAggregator.GetEvent<DetailDeletedEvent>().Publish(new DetailDeletedEventArgs { Id = Friend.Id, ViewModelName = nameof(Friend)});
-        }
-
-        private async void OnSaveCommand()
-        {
-            await _friendDataService.SaveAsync();
-            _eventAggregator.GetEvent<DetailChangesSavedEvent>().Publish(new DetailChangesSavedEventArgs
-            {
-                Id = Friend.Id,
-                Name = $"{Friend.FirstName} {Friend.LastName}",
-                ViewModelName = nameof(Friend)
-            });
-            // wylączenie przycisku Save po zapisaniu poprzes sprawdzenie zmian w kontekscie
-            HasChanges = _friendDataService.HasChanges();
-        }
-
-        private bool OnSaveCoommandCanExecute()
-        {
-            return Friend != null && !Friend.HasErrors && HasChanges && !PhoneNumbers.Any(f => f.HasErrors);
         }
 
         private Friend CreateNewFriend()

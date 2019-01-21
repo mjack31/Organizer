@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Organizer.UI.ViewModels
 {
-    public class FriendsListViewModel : BaseViewModel, IFriendsListViewModel
+    public class FriendsListViewModel : ViewModelBase, IFriendsListViewModel
     {
         private ILookupItemsDataService _friendsDataService;
         private IEventAggregator _eventAggregator;
