@@ -35,6 +35,9 @@
         <DataTemplate DataType="{x:Type vm:FriendDetailsViewModel}">
             <view:FriendDetailsView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MeetingDetailsViewModel}">
+            <view:MeetingDetailsView />
+        </DataTemplate>
     </Window.Resources>
     
     <Grid>
@@ -53,6 +56,11 @@
                 FontSize="20"
                 Margin="5"
                 Command="{Binding CreateNewFriendCommand}"/>
+            <MenuItem 
+                Header="Create new Meeting"
+                FontSize="20"
+                Margin="5"
+                Command="{Binding CreateNewMeetingCommand}"/>
         </Menu>
         
         <view:FriendsListView Grid.Row="1" DataContext="{Binding FriendsListViewModel}" />

@@ -21,7 +21,6 @@ namespace Organizer.UI.ViewModels
         private IProgLangLookupItemsDataService _progLangDataService;
         private PhoneNumberWrapper _selectedPhoneNumber;
         
-
         // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
         public FriendDetailsViewModel(IFriendsRepository<Friend> friendDataService, IMessageService msgService, IProgLangLookupItemsDataService progLangDataService,
             IEventAggregator eventAggregator) : base(eventAggregator)

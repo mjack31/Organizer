@@ -27,5 +27,7 @@ namespace Organizer.Models
         public ProgramingLang FavoriteLanguage { get; set; }
 
         public List<PhoneNumber> PhoneNumbers { get; set; }
+
+        public List<Meeting> Meetings { get; set; }
     }
 }

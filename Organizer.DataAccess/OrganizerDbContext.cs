@@ -15,6 +15,7 @@ namespace Organizer.DataAccess
         public DbSet<Friend> Friends { get; set; }
         public DbSet<ProgramingLang> ProgramingLanguages { get; set; }
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
+        public DbSet<Meeting> Meetings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

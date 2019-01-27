@@ -19,3 +19,4 @@ C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAcc
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.Addphonenumberentity.resources
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.Changesinphonenumberentity.resources
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.Changephonenumbersdataannotation.resources
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.DataAccess\obj\Debug\Organizer.DataAccess.Migrations.Meetingsentity.resources

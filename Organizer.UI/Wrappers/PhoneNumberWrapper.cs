@@ -1,10 +1,5 @@
 ﻿using Organizer.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Organizer.UI.Wrappers
 {
@@ -28,7 +23,7 @@ namespace Organizer.UI.Wrappers
             }
         }
 
-        private void Validate(string propName)
+        protected override void Validate(string propName)
         {
             ClearErrors(propName);
             switch (propName)

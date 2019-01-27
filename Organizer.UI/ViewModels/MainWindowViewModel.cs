@@ -30,9 +30,11 @@ namespace Organizer.UI.ViewModels
             _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeletedEvent);
 
             CreateNewFriendCommand = new DelegateCommand(OnCreateNewFriendCommand);
+            CreateNewMeetingCommand = new DelegateCommand(OnCreateNewMeetingCommand);
         }
 
         public DelegateCommand CreateNewFriendCommand { get; }
+        public DelegateCommand CreateNewMeetingCommand { get; }
 
         public async Task LoadDataAsync()
         {
@@ -78,6 +80,11 @@ namespace Organizer.UI.ViewModels
         private void OnDetailDeletedEvent(DetailDeletedEventArgs obj)
         {
             DetailsViewModel = null;
+        }
+
+        private void OnCreateNewMeetingCommand()
+        {
+            throw new NotImplementedException();
         }
     }
 }

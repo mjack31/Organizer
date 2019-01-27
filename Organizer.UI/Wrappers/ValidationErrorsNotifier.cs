@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Organizer.UI.Wrappers
 {
-    public class ValidationErrorsNotifier : ViewModelBase, INotifyDataErrorInfo
+    public abstract class ValidationErrorsNotifier : ViewModelBase, INotifyDataErrorInfo
     {
         private Dictionary<string, List<string>> _errorsByPropName = new Dictionary<string, List<string>>();
 
@@ -53,5 +53,7 @@ namespace Organizer.UI.Wrappers
             }
             // Potrzebne jest pełne czyśżczenie ponieważ HasError jest na true nawet gdy obiekt(property np FirstName) jest pusty
         }
+
+        protected abstract void Validate(string propName);
     }
 }

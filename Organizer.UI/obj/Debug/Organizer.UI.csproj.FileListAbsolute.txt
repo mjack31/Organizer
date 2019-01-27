@@ -33,3 +33,5 @@ C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\obj\
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\Prism.dll
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\Prism.pdb
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\Prism.xml
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\obj\Debug\Views\MeetingDetailsView.g.cs
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\obj\Debug\Views\MeetingDetailsView.baml

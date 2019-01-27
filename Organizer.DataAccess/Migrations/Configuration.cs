@@ -2,6 +2,7 @@ namespace Organizer.DataAccess.Migrations
 {
     using Organizer.Models;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -34,6 +35,13 @@ namespace Organizer.DataAccess.Migrations
             context.PhoneNumbers.AddOrUpdate(f => f.Number, 
                 new PhoneNumber { Number = "609696223", FriendId = context.Friends.FirstOrDefault().Id }
             );
+
+            context.Meetings.AddOrUpdate(f => f.Title,
+                new Meeting { Title = "First", FromDate = new DateTime(2020, 3, 3), ToDate = new DateTime(2020, 3, 23), Friends = new List<Friend>
+                {
+                    context.Friends.FirstOrDefault(f => f.FirstName == "Jacek")
+                }
+            });
         }
     }
 }

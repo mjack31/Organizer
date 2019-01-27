@@ -72,15 +72,18 @@
     <Compile Include="Data\FriendsRepository.cs" />
     <Compile Include="Data\GenericRepository.cs" />
     <Compile Include="Data\Interfaces\IGenericRepository.cs" />
+    <Compile Include="Data\Interfaces\IMeetingsRepository.cs" />
     <Compile Include="Data\Interfaces\IProgLangLookupItemsDataService.cs" />
     <Compile Include="Data\LookupItemsDataService.cs" />
     <Compile Include="Data\Interfaces\IFriendsRepository.cs" />
+    <Compile Include="Data\MeetingsRepository.cs" />
     <Compile Include="Events\DetailChangesSavedEvent.cs" />
     <Compile Include="Events\DetailDeletedEvent.cs" />
     <Compile Include="Events\ListItemChosenEvent.cs" />
     <Compile Include="Services\Interfaces\IMessageService.cs" />
     <Compile Include="Services\PopUpMessageService.cs" />
     <Compile Include="ViewModels\DetailViewModelBase.cs" />
+    <Compile Include="ViewModels\MeetingDetailsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\FriendDetailsViewModel.cs" />
     <Compile Include="ViewModels\FriendsListViewModel.cs" />
@@ -95,7 +98,11 @@
     <Compile Include="Views\FriendsListView.xaml.cs">
       <DependentUpon>FriendsListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MeetingDetailsView.xaml.cs">
+      <DependentUpon>MeetingDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Wrappers\FriendWrapper.cs" />
+    <Compile Include="Wrappers\MeetingWrapper.cs" />
     <Compile Include="Wrappers\PhoneNumberWrapper.cs" />
     <Compile Include="Wrappers\ValidationErrorsNotifier.cs" />
     <Page Include="MainWindow.xaml">
@@ -116,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FriendsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MeetingDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

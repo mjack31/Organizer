@@ -71,8 +71,7 @@ namespace Organizer.UI.Wrappers
             }
         }
 
-
-        private void Validate(string propName)
+        protected override void Validate(string propName)
         {
             ClearErrors(propName);
             switch (propName)

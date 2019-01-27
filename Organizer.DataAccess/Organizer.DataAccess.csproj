@@ -72,6 +72,10 @@
     <Compile Include="Migrations\201901082139368_Change phonenumbers data annotation.Designer.cs">
       <DependentUpon>201901082139368_Change phonenumbers data annotation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901232157467_Meetings entity.cs" />
+    <Compile Include="Migrations\201901232157467_Meetings entity.Designer.cs">
+      <DependentUpon>201901232157467_Meetings entity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="OrganizerDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -106,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901082139368_Change phonenumbers data annotation.resx">
       <DependentUpon>201901082139368_Change phonenumbers data annotation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901232157467_Meetings entity.resx">
+      <DependentUpon>201901232157467_Meetings entity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
