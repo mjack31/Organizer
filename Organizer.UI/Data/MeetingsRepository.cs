@@ -6,7 +6,7 @@ namespace Organizer.UI.Data
 {
     public class MeetingsRepository : GenericRepository<Meeting, OrganizerDbContext>, IMeetingsRepository<Meeting>
     {
-        protected MeetingsRepository(OrganizerDbContext dbContext) : base(dbContext)
+        public MeetingsRepository(OrganizerDbContext dbContext) : base(dbContext)
         {
 
         }

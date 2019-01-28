@@ -83,6 +83,7 @@
     <Compile Include="Services\Interfaces\IMessageService.cs" />
     <Compile Include="Services\PopUpMessageService.cs" />
     <Compile Include="ViewModels\DetailViewModelBase.cs" />
+    <Compile Include="ViewModels\Interfaces\IMeetingDetailsViewModel.cs" />
     <Compile Include="ViewModels\MeetingDetailsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\FriendDetailsViewModel.cs" />

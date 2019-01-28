@@ -62,7 +62,7 @@
                 Margin="5"
                 Command="{Binding CreateNewMeetingCommand}"/>
         </Menu>
-        
+
         <view:FriendsListView Grid.Row="1" DataContext="{Binding FriendsListViewModel}" />
         <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding DetailsViewModel}" />
     </Grid>

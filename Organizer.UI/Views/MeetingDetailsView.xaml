@@ -10,6 +10,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -20,6 +22,17 @@
                 Binding Meeting.Title, 
                 Mode=TwoWay,
                 UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="5 25 5 5">
+            <Button  Height="30" Width="150"
+                     Margin="5"
+                     Content="Save meeting"
+                     Command="{Binding SaveCommand}" />
+            <Button  Height="30" Width="150" 
+                     Content="Delete meeting"
+                     Margin="5"
+                     Command="{Binding DeleteCommand}" />
         </StackPanel>
     </Grid>
 </UserControl>

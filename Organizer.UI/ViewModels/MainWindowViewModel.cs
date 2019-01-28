@@ -13,15 +13,18 @@ namespace Organizer.UI.ViewModels
         private IEventAggregator _eventAggregator;
         private Func<IFriendDetailsViewModel> _friendDetailsViewModelCreator;
         private IMessageService _messageService;
+        private Func<IMeetingDetailsViewModel> _meetingDetailsViewModelCreator;
         private IDetailsViewModel _detailsViewModel;
 
         public MainWindowViewModel(IFriendsListViewModel friendsListViewModel, Func<IFriendDetailsViewModel> friendDetailsViewModelCreator, 
-            IEventAggregator eventAggregator, IMessageService msgService)
+            IEventAggregator eventAggregator, IMessageService msgService, Func<IMeetingDetailsViewModel> meetingDetailsViewModelCreator)
         {
             FriendsListViewModel = friendsListViewModel;
             _eventAggregator = eventAggregator;
             _friendDetailsViewModelCreator = friendDetailsViewModelCreator;
             _messageService = msgService;
+
+            _meetingDetailsViewModelCreator = meetingDetailsViewModelCreator;
 
             // dodanie subskrybenta (handlera) do eventu EventAggregatora Prism'a. Metoda Subscribe przyjmuje Action<T>
             // ale można zamiast delegaty dodawać normalnie metody - ułatwienie
@@ -68,8 +71,20 @@ namespace Organizer.UI.ViewModels
             }
             // stworzenie viewModelu - mimo ze DetailsViewModel jest typu IDetailsViewModel (rzutowanie klasy na interfejs) to przechowuje 
             // ona instancję FriendDetailsViewModel i dzięki temu dobrze się to wyświetla w ContenContro MainWindow
-            DetailsViewModel = _friendDetailsViewModelCreator();
-            await DetailsViewModel.LoadDetailAsync(eventArgs.Id);
+            switch (eventArgs.ViewModelName)
+            {
+                case nameof(FriendDetailsViewModel):
+                    DetailsViewModel = _friendDetailsViewModelCreator();
+                    await DetailsViewModel.LoadDetailAsync(eventArgs.Id);
+                    break;
+                case nameof(MeetingDetailsViewModel):
+                    DetailsViewModel = _meetingDetailsViewModelCreator();
+                    await DetailsViewModel.LoadDetailAsync(eventArgs.Id);
+                    break;
+                default:
+                    break;
+            }
+
         }
 
         private void OnCreateNewFriendCommand()
@@ -84,7 +99,7 @@ namespace Organizer.UI.ViewModels
 
         private void OnCreateNewMeetingCommand()
         {
-            throw new NotImplementedException();
+            OnListItemChosen(new ListItemChosenEventArgs { ViewModelName = nameof(MeetingDetailsViewModel) });
         }
     }
 }

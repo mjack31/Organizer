@@ -6,19 +6,25 @@ namespace Organizer.UI.Wrappers
 {
     public class MeetingWrapper : ValidationErrorsNotifier
     {
-        private Meeting _model;
+        public Meeting Model;
+
+        public int Id
+        {
+            get { return Model.Id; }
+        }
+
 
         public MeetingWrapper(Meeting model)
         {
-            _model = model;
+            Model = model;
         }
 
         public string Title
         {
-            get { return _model.Title; }
+            get { return Model.Title; }
             set
             {
-                _model.Title = value;
+                Model.Title = value;
                 Validate(nameof(Title));
                 OnProperyChanged(nameof(Title));
             }
@@ -26,10 +32,10 @@ namespace Organizer.UI.Wrappers
 
         public DateTime FromDate
         {
-            get { return _model.FromDate; }
+            get { return Model.FromDate; }
             set
             {
-                _model.FromDate = value;
+                Model.FromDate = value;
                 Validate(nameof(FromDate));
                 OnProperyChanged(nameof(FromDate));
             }
@@ -37,10 +43,10 @@ namespace Organizer.UI.Wrappers
 
         public DateTime ToDate
         {
-            get { return _model.ToDate; }
+            get { return Model.ToDate; }
             set
             {
-                _model.ToDate = value;
+                Model.ToDate = value;
                 Validate(nameof(ToDate));
                 OnProperyChanged(nameof(ToDate));
             }
@@ -48,10 +54,10 @@ namespace Organizer.UI.Wrappers
 
         public List<Friend> Friends
         {
-            get { return _model.Friends; }
+            get { return Model.Friends; }
             set
             {
-                _model.Friends = value;
+                Model.Friends = value;
                 Validate(nameof(Friends));
                 OnProperyChanged(nameof(Friends));
             }

@@ -2,6 +2,7 @@
 using Organizer.DataAccess;
 using Organizer.Models;
 using Organizer.UI.Data;
+using Organizer.UI.Data.Interfaces;
 using Organizer.UI.Services;
 using Organizer.UI.ViewModels;
 using Organizer.UI.ViewModels.Interfaces;
@@ -29,6 +30,8 @@ namespace Organizer.UI
             builder.RegisterType<PopUpMessageService>().As<IMessageService>();
             builder.RegisterType<LookupItemsDataService>().As<IProgLangLookupItemsDataService>();
 
+            builder.RegisterType<MeetingDetailsViewModel>().As<IMeetingDetailsViewModel>();
+            builder.RegisterType<MeetingsRepository>().As<IMeetingsRepository<Meeting>>();
             return builder.Build();
         }
     }
