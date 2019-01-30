@@ -11,17 +11,19 @@
             ItemsSource="{Binding FriendsList}"
             SelectedItem="{Binding SelectedFriend, Mode=TwoWay}"
             DisplayMemberPath="Name"/>-->
-        <ItemsControl ItemsSource="{Binding FriendsList}">
-            <ItemsControl.ItemTemplate >
-                <DataTemplate>
-                    <!--Stylowanie powinno być w osobnym miejscu-->
-                    <!--Np w resourcach i pod propertisem ControlTemplate-->
-                    <Button Content="{Binding Name}"
-                            Command="{Binding SelectItemCommand}" 
-                            Background="White"
-                            BorderThickness="2"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <GroupBox Header="Friends">
+            <ItemsControl ItemsSource="{Binding FriendsList}">
+                <ItemsControl.ItemTemplate >
+                    <DataTemplate>
+                        <!--Stylowanie powinno być w osobnym miejscu-->
+                        <!--Np w resourcach i pod propertisem ControlTemplate-->
+                        <Button Content="{Binding Name}"
+                                Command="{Binding SelectItemCommand}" 
+                                Background="White"
+                                BorderThickness="2"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
     </Grid>
 </UserControl>

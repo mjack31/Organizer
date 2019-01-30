@@ -67,13 +67,6 @@ namespace Organizer.UI.ViewModels
             SaveCommand.RaiseCanExecuteChanged();
         }
 
-        private Meeting CreateNewMeeting()
-        {
-            // stworzenie nowego pustego spotkania i przekazanie do do kontekstu db
-            var meeting = new Meeting();
-            return _meetingsRepo.Add(meeting);
-        }
-
         protected override void OnDeleteCommand()
         {
             var result = _messageService.ShowOKCancelMsg("Do you want to delete a meeting?");
@@ -101,6 +94,13 @@ namespace Organizer.UI.ViewModels
         protected override bool OnSaveCoommandCanExecute()
         {
             return Meeting != null && !Meeting.HasErrors && HasChanges;
+        }
+
+        private Meeting CreateNewMeeting()
+        {
+            // stworzenie nowego pustego spotkania i przekazanie do do kontekstu db
+            var meeting = new Meeting();
+            return _meetingsRepo.Add(meeting);
         }
     }
 }
