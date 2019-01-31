@@ -100,7 +100,7 @@ namespace Organizer.UI.ViewModels
             {
                 Id = Friend.Id,
                 Name = $"{Friend.FirstName} {Friend.LastName}",
-                ViewModelName = nameof(Friend)
+                ViewModelName = GetType().Name
             });
             // wylączenie przycisku Save po zapisaniu poprzes sprawdzenie zmian w kontekscie
             HasChanges = _friendDataService.HasChanges();

@@ -11,8 +11,29 @@
             ItemsSource="{Binding FriendsList}"
             SelectedItem="{Binding SelectedFriend, Mode=TwoWay}"
             DisplayMemberPath="Name"/>-->
-        <GroupBox Header="Friends">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <GroupBox Header="Friends" Grid.Row="0">
             <ItemsControl ItemsSource="{Binding FriendsList}">
+                <ItemsControl.ItemTemplate >
+                    <DataTemplate>
+                        <!--Stylowanie powinno być w osobnym miejscu-->
+                        <!--Np w resourcach i pod propertisem ControlTemplate-->
+                        <Button Content="{Binding Name}"
+                                Command="{Binding SelectItemCommand}" 
+                                Background="White"
+                                BorderThickness="2"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
+
+        <GroupBox Header="Friends" Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding MeetingsList}">
                 <ItemsControl.ItemTemplate >
                     <DataTemplate>
                         <!--Stylowanie powinno być w osobnym miejscu-->

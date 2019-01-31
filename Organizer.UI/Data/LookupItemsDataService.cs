@@ -33,6 +33,20 @@ namespace Organizer.UI.Data
             }
         }
 
+        public async Task<List<ListItem>> GetAllMeetingsAsync()
+        {
+            using (var context = _dbContextCreator())
+            {
+                var listItem = await context.Meetings.AsNoTracking().Select(f => new ListItem
+                {
+                    Id = f.Id,
+                    Name = f.Title,
+                }).ToListAsync();
+                //await Task.Delay(5000); // dla testów responsywności przy ładowaniu danych
+                return listItem;
+            }
+        }
+
         public async Task<List<ListItem>> GetAllProgLangAsync()
         {
             using (var context = _dbContextCreator())

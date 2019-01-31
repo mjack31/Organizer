@@ -61,6 +61,8 @@ namespace Organizer.UI.ViewModels
             if (!id.HasValue)
             {
                 Meeting.Title = "";
+                Meeting.FromDate = DateTime.Today;
+                Meeting.ToDate = DateTime.Today;
             }
 
             // sprawdzenie czy można zapisać zmiany
@@ -85,7 +87,7 @@ namespace Organizer.UI.ViewModels
             {
                 Id = Meeting.Id,
                 Name = Meeting.Title,
-                ViewModelName = nameof(Meeting)
+                ViewModelName = GetType().Name
             });
             // wylączenie przycisku Save po zapisaniu poprzes sprawdzenie zmian w kontekscie
             HasChanges = _meetingsRepo.HasChanges();

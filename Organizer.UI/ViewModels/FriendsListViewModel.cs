@@ -12,14 +12,19 @@ namespace Organizer.UI.ViewModels
     public class FriendsListViewModel : ViewModelBase, IFriendsListViewModel
     {
         private ILookupItemsDataService _friendsDataService;
+        private ILookupItemsDataService _meetingsDataService;
         private IEventAggregator _eventAggregator;
 
         // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
-        public FriendsListViewModel(ILookupItemsDataService friendsDataService, IEventAggregator eventAggregator)
+        public FriendsListViewModel(ILookupItemsDataService friendsDataService, IEventAggregator eventAggregator, ILookupItemsDataService meetingsDataService)
         {
             // unikać instancjowania obiektów przez new, chyba że sąto listy, słowniki itp
             FriendsList = new ObservableCollection<ListItemViewModel>();
+            MeetingsList = new ObservableCollection<ListItemViewModel>();
+
             _friendsDataService = friendsDataService;
+            _meetingsDataService = meetingsDataService;
+
             _eventAggregator = eventAggregator;
 
             _eventAggregator.GetEvent<DetailChangesSavedEvent>().Subscribe(OnFriendChangesSaved);
@@ -29,9 +34,27 @@ namespace Organizer.UI.ViewModels
         // Aktywna lista która updateuje UI gdy zmienia się jej zawartość
         // Do tego propery zbindowany jest ListView
         public ObservableCollection<ListItemViewModel> FriendsList { get; }
+        public ObservableCollection<ListItemViewModel> MeetingsList { get; }
 
         // ładowanie listy przyjaciół
         public async Task LoadDataAsync()
+        {
+            await LoadFriends();
+            await LoadMeetings();
+        }
+
+        private async Task LoadMeetings()
+        {
+            var listItems = await _meetingsDataService.GetAllMeetingsAsync();
+            MeetingsList.Clear(); // Dla pewności zawsze czyścić kolekcję
+            foreach (var item in listItems)
+            {
+                var meeting = new ListItemViewModel(item.Id, item.Name, _eventAggregator, nameof(MeetingDetailsViewModel));
+                MeetingsList.Add(meeting);
+            }
+        }
+
+        private async Task LoadFriends()
         {
             var listItems = await _friendsDataService.GetAllFriendsAsync();
             FriendsList.Clear(); // Dla pewności zawsze czyścić kolekcję
@@ -57,13 +80,36 @@ namespace Organizer.UI.ViewModels
         //    }
         //}
 
-        private void OnFriendDeletedEvent(DetailDeletedEventArgs eventArgs)
+        private void OnFriendChangesSaved(DetailChangesSavedEventArgs eventArgs)
         {
-            var friendToDelete = FriendsList.SingleOrDefault(f => f.Id == eventArgs.Id);
-            FriendsList.Remove(friendToDelete);
+            switch (eventArgs.ViewModelName)
+            {
+                case nameof(FriendDetailsViewModel):
+                    OnFriendSave(eventArgs);
+                    break;
+                case nameof(MeetingDetailsViewModel):
+                    OnMeetingSave(eventArgs);
+                    break;
+                default:
+                    throw new Exception("Wrong view model");
+            }
+
         }
 
-        private void OnFriendChangesSaved(DetailChangesSavedEventArgs eventArgs)
+        private void OnMeetingSave(DetailChangesSavedEventArgs eventArgs)
+        {
+            var meetingToChange = MeetingsList.SingleOrDefault(f => f.Id == eventArgs.Id);
+            if (meetingToChange == null)
+            {
+                MeetingsList.Add(new ListItemViewModel(eventArgs.Id, eventArgs.Name, _eventAggregator, nameof(MeetingDetailsViewModel)));
+            }
+            else
+            {
+                meetingToChange.Name = eventArgs.Name;
+            }
+        }
+
+        private void OnFriendSave(DetailChangesSavedEventArgs eventArgs)
         {
             var friendToChange = FriendsList.SingleOrDefault(f => f.Id == eventArgs.Id);
             if (friendToChange == null)
@@ -74,6 +120,12 @@ namespace Organizer.UI.ViewModels
             {
                 friendToChange.Name = eventArgs.Name;
             }
+        }
+
+        private void OnFriendDeletedEvent(DetailDeletedEventArgs eventArgs)
+        {
+            var friendToDelete = FriendsList.SingleOrDefault(f => f.Id == eventArgs.Id);
+            FriendsList.Remove(friendToDelete);
         }
     }
 }
