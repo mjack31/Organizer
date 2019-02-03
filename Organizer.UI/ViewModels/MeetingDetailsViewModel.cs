@@ -3,6 +3,7 @@ using Organizer.UI.Data.Interfaces;
 using Organizer.UI.Events;
 using Organizer.UI.Services;
 using Organizer.UI.Wrappers;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,13 @@ namespace Organizer.UI.ViewModels
         {
             _messageService = msgService;
             _meetingsRepo = meetingsRepo;
+
+            AddFriendToMeetingCommand = new DelegateCommand(OnAddFriendToMeetingCmd, OnAddFriendToMeetingCmdCanExecute);
+            RemoveFriendFromMeetingCommand = new DelegateCommand(OnRemoveFriendFromMeetingCommand, RemoveFriendFromMeetingCommandCanExecute);
         }
+
+        public DelegateCommand AddFriendToMeetingCommand { get; }
+        public DelegateCommand RemoveFriendFromMeetingCommand { get; }
 
         public MeetingWrapper Meeting
         {
@@ -103,6 +110,28 @@ namespace Organizer.UI.ViewModels
             // stworzenie nowego pustego spotkania i przekazanie do do kontekstu db
             var meeting = new Meeting();
             return _meetingsRepo.Add(meeting);
+        }
+
+        private bool RemoveFriendFromMeetingCommandCanExecute()
+        {
+            // TODO - dodac implementacje
+            return true;
+        }
+
+        private void OnRemoveFriendFromMeetingCommand()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnAddFriendToMeetingCmd()
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool OnAddFriendToMeetingCmdCanExecute()
+        {
+            // TODO - dodac implementacje
+            return true;
         }
     }
 }

@@ -7,9 +7,9 @@
              xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -44,10 +44,34 @@
         </StackPanel>
 
 
-        <StackPanel Grid.Row="3" Margin="5">
-            <Label  Content="Friends included:" />
-            <toolkit:DateTimePicker />
-        </StackPanel>
+        <Grid Grid.Row="3" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Avaible friends:" />
+            <ListView Grid.Row="1" Grid.Column="0" />
+
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Friends in the meeting:" />
+            <ListView Grid.Row="1"
+                      Grid.Column="2"
+                      ItemsSource="{Binding Meeting.Friends}"/>
+
+            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical">
+                <Button Content="&gt;&gt;" 
+                        Margin="5"
+                        Command="{Binding AddFriendToMeetingCommand}"/>
+                <Button Content="&lt;&lt;"
+                        Margin="5"
+                        Command="{Binding RemoveFriendFromMeetingCommand}"/>
+            </StackPanel>
+        </Grid>
         
         
         <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="5 25 5 5">
