@@ -1,10 +1,10 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Threading.Tasks;
 
 namespace Organizer.UI.Data
 {
-    public class GenericRepository<TEntity, TDbContext> : IGenericRepository<TEntity>
-        where TDbContext : DbContext
+    public class GenericRepository<TEntity, TDbContext> : IGenericRepository<TEntity> where TDbContext : DbContext
         where TEntity : class
     {
         protected readonly TDbContext _dbContext;

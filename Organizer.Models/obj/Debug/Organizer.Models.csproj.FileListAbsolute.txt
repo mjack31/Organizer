@@ -3,4 +3,3 @@ C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.Models\
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.Models\obj\Debug\Organizer.Models.csproj.CoreCompileInputs.cache
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.Models\obj\Debug\Organizer.Models.dll
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.Models\obj\Debug\Organizer.Models.pdb
-C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.Models\obj\Debug\Organizer.Models.csprojAssemblyReference.cache

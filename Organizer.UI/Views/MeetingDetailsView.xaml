@@ -56,12 +56,36 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Avaible friends:" />
-            <ListView Grid.Row="1" Grid.Column="0" />
+            <ListView Grid.Row="1" 
+                      Grid.Column="0"
+                      ItemsSource="{Binding AvaibleFriends}"
+                      SelectedItem="{Binding SelectedAvaibleFriend}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding FirstName}" />
+                            <TextBlock Text=" " />
+                            <TextBlock Text="{Binding LastName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <TextBlock Grid.Row="0" Grid.Column="2" Text="Friends in the meeting:" />
             <ListView Grid.Row="1"
                       Grid.Column="2"
-                      ItemsSource="{Binding Meeting.Friends}"/>
+                      ItemsSource="{Binding FriendsInMeeting}"
+                      SelectedItem="{Binding SelectedFriendInMeeting}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding FirstName}" />
+                            <TextBlock Text=" " />
+                            <TextBlock Text="{Binding LastName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical">
                 <Button Content="&gt;&gt;" 

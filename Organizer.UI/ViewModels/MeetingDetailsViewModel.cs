@@ -1,4 +1,5 @@
 ﻿using Organizer.Models;
+using Organizer.UI.Data;
 using Organizer.UI.Data.Interfaces;
 using Organizer.UI.Events;
 using Organizer.UI.Services;
@@ -7,6 +8,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,12 +19,17 @@ namespace Organizer.UI.ViewModels
     {
         private IMessageService _messageService;
         private IMeetingsRepository<Meeting> _meetingsRepo;
+        private IFriendsRepository<Friend> _friendsDataService;
         private MeetingWrapper _meeting;
 
-        public MeetingDetailsViewModel(IEventAggregator eventAggregator, IMessageService msgService, IMeetingsRepository<Meeting> meetingsRepo) : base(eventAggregator)
+        public MeetingDetailsViewModel(IEventAggregator eventAggregator, IMessageService msgService,
+            IMeetingsRepository<Meeting> meetingsRepo) : base(eventAggregator)
         {
             _messageService = msgService;
             _meetingsRepo = meetingsRepo;
+
+            FriendsInMeeting = new ObservableCollection<Friend>();
+            AvaibleFriends = new ObservableCollection<Friend>();
 
             AddFriendToMeetingCommand = new DelegateCommand(OnAddFriendToMeetingCmd, OnAddFriendToMeetingCmdCanExecute);
             RemoveFriendFromMeetingCommand = new DelegateCommand(OnRemoveFriendFromMeetingCommand, RemoveFriendFromMeetingCommandCanExecute);
@@ -40,6 +47,13 @@ namespace Organizer.UI.ViewModels
                 OnProperyChanged(nameof(Meeting));
             }
         }
+
+        public ObservableCollection<Friend> FriendsInMeeting { get; private set; }
+        public ObservableCollection<Friend> AvaibleFriends { get; private set; }
+
+        public Friend SelectedAvaibleFriend { get; set; }
+        public Friend SelectedFriendInMeeting { get; set; }
+
 
         public async override Task LoadDetailAsync(int? id)
         {
@@ -64,13 +78,15 @@ namespace Organizer.UI.ViewModels
                 HasChanges = _meetingsRepo.HasChanges();
             };
 
-            // sztuczka aby zaraz po naciśnięciu przycisku utworzenia nowego frienda odświerzył się widok formularza i pojawiły się wskazówki walidacyjne
+            // sztuczka aby zaraz po naciśnięciu przycisku utworzenia nowego meetinga odświerzył się widok formularza i pojawiły się wskazówki walidacyjne
             if (!id.HasValue)
             {
                 Meeting.Title = "";
                 Meeting.FromDate = DateTime.Today;
                 Meeting.ToDate = DateTime.Today;
             }
+
+            InitialiseMeetingFriends();
 
             // sprawdzenie czy można zapisać zmiany
             SaveCommand.RaiseCanExecuteChanged();
@@ -105,6 +121,26 @@ namespace Organizer.UI.ViewModels
             return Meeting != null && !Meeting.HasErrors && HasChanges;
         }
 
+        private async void InitialiseMeetingFriends()
+        {
+            FriendsInMeeting.Clear();
+            AvaibleFriends.Clear();
+            foreach (var friend in Meeting.Model.Friends)
+            {
+                FriendsInMeeting.Add(friend);
+            }
+
+            var allFriends = await _meetingsRepo.GetAllAddedFriends();
+
+            foreach (var friend in allFriends)
+            {
+                if(!FriendsInMeeting.Any(f => f.Id == friend.Id))
+                {
+                    AvaibleFriends.Add(friend);
+                }
+            }
+        }
+
         private Meeting CreateNewMeeting()
         {
             // stworzenie nowego pustego spotkania i przekazanie do do kontekstu db
@@ -120,12 +156,16 @@ namespace Organizer.UI.ViewModels
 
         private void OnRemoveFriendFromMeetingCommand()
         {
-            throw new NotImplementedException();
+            FriendsInMeeting.Remove(SelectedFriendInMeeting);
+            Meeting.Model.Friends.Remove(SelectedFriendInMeeting);
+            HasChanges = _meetingsRepo.HasChanges();
         }
 
         private void OnAddFriendToMeetingCmd()
         {
-            throw new NotImplementedException();
+            FriendsInMeeting.Add(SelectedAvaibleFriend);
+            Meeting.Model.Friends.Add(SelectedAvaibleFriend);
+            HasChanges = _meetingsRepo.HasChanges();
         }
 
         private bool OnAddFriendToMeetingCmdCanExecute()
