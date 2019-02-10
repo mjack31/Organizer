@@ -19,8 +19,9 @@ namespace Organizer.UI.ViewModels
     {
         private IMessageService _messageService;
         private IMeetingsRepository<Meeting> _meetingsRepo;
-        private IFriendsRepository<Friend> _friendsDataService;
         private MeetingWrapper _meeting;
+        private Friend _selectedAvaibleFriend;
+        private Friend _selectedFriendInMeeting;
 
         public MeetingDetailsViewModel(IEventAggregator eventAggregator, IMessageService msgService,
             IMeetingsRepository<Meeting> meetingsRepo) : base(eventAggregator)
@@ -48,12 +49,28 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        public ObservableCollection<Friend> FriendsInMeeting { get; private set; }
-        public ObservableCollection<Friend> AvaibleFriends { get; private set; }
+        public ObservableCollection<Friend> FriendsInMeeting { get; set; }
+        public ObservableCollection<Friend> AvaibleFriends { get; set; }
 
-        public Friend SelectedAvaibleFriend { get; set; }
-        public Friend SelectedFriendInMeeting { get; set; }
+        public Friend SelectedFriendInMeeting
+        {
+            get { return _selectedFriendInMeeting; }
+            set
+            {
+                _selectedFriendInMeeting = value;
+                RemoveFriendFromMeetingCommand.RaiseCanExecuteChanged();
+            }
+        }
 
+        public Friend SelectedAvaibleFriend
+        {
+            get { return  _selectedAvaibleFriend; }
+            set
+            {
+                _selectedAvaibleFriend = value;
+                AddFriendToMeetingCommand.RaiseCanExecuteChanged();
+            }
+        }
 
         public async override Task LoadDetailAsync(int? id)
         {
@@ -150,28 +167,28 @@ namespace Organizer.UI.ViewModels
 
         private bool RemoveFriendFromMeetingCommandCanExecute()
         {
-            // TODO - dodac implementacje
-            return true;
+            return SelectedFriendInMeeting != null;
         }
 
         private void OnRemoveFriendFromMeetingCommand()
         {
-            FriendsInMeeting.Remove(SelectedFriendInMeeting);
             Meeting.Model.Friends.Remove(SelectedFriendInMeeting);
+            AvaibleFriends.Add(SelectedFriendInMeeting);
+            FriendsInMeeting.Remove(SelectedFriendInMeeting);
             HasChanges = _meetingsRepo.HasChanges();
         }
 
         private void OnAddFriendToMeetingCmd()
         {
-            FriendsInMeeting.Add(SelectedAvaibleFriend);
             Meeting.Model.Friends.Add(SelectedAvaibleFriend);
+            FriendsInMeeting.Add(SelectedAvaibleFriend);
+            AvaibleFriends.Remove(SelectedAvaibleFriend);
             HasChanges = _meetingsRepo.HasChanges();
         }
 
         private bool OnAddFriendToMeetingCmdCanExecute()
         {
-            // TODO - dodac implementacje
-            return true;
+            return SelectedAvaibleFriend != null;
         }
     }
 }

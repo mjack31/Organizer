@@ -58,7 +58,7 @@
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Avaible friends:" />
             <ListView Grid.Row="1" 
                       Grid.Column="0"
-                      ItemsSource="{Binding AvaibleFriends}"
+                      ItemsSource="{Binding AvaibleFriends, NotifyOnSourceUpdated=True}"
                       SelectedItem="{Binding SelectedAvaibleFriend}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -74,7 +74,7 @@
             <TextBlock Grid.Row="0" Grid.Column="2" Text="Friends in the meeting:" />
             <ListView Grid.Row="1"
                       Grid.Column="2"
-                      ItemsSource="{Binding FriendsInMeeting}"
+                      ItemsSource="{Binding FriendsInMeeting, NotifyOnSourceUpdated=True}"
                       SelectedItem="{Binding SelectedFriendInMeeting}">
                 <ListView.ItemTemplate>
                     <DataTemplate>

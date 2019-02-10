@@ -12,39 +12,44 @@
             SelectedItem="{Binding SelectedFriend, Mode=TwoWay}"
             DisplayMemberPath="Name"/>-->
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
         <GroupBox Header="Friends" Grid.Row="0">
-            <ItemsControl ItemsSource="{Binding FriendsList}">
-                <ItemsControl.ItemTemplate >
-                    <DataTemplate>
-                        <!--Stylowanie powinno być w osobnym miejscu-->
-                        <!--Np w resourcach i pod propertisem ControlTemplate-->
-                        <Button Content="{Binding Name}"
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding FriendsList}">
+                    <ItemsControl.ItemTemplate >
+                        <DataTemplate>
+                            <!--Stylowanie powinno być w osobnym miejscu-->
+                            <!--Np w resourcach i pod propertisem ControlTemplate-->
+                            <Button Content="{Binding Name}"
                                 Command="{Binding SelectItemCommand}" 
                                 Background="White"
-                                BorderThickness="2"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                BorderThickness="0"
+                                HorizontalAlignment="Left"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </GroupBox>
 
-        <GroupBox Header="Friends" Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding MeetingsList}">
-                <ItemsControl.ItemTemplate >
-                    <DataTemplate>
-                        <!--Stylowanie powinno być w osobnym miejscu-->
-                        <!--Np w resourcach i pod propertisem ControlTemplate-->
-                        <Button Content="{Binding Name}"
+        <GroupBox Header="Meetings" Grid.Row="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding MeetingsList}">
+                    <ItemsControl.ItemTemplate >
+                        <DataTemplate>
+                            <!--Stylowanie powinno być w osobnym miejscu-->
+                            <!--Np w resourcach i pod propertisem ControlTemplate-->
+                            <Button Content="{Binding Name}"
                                 Command="{Binding SelectItemCommand}" 
                                 Background="White"
-                                BorderThickness="2"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                BorderThickness="0"
+                                HorizontalAlignment="Left" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </GroupBox>
     </Grid>
 </UserControl>
