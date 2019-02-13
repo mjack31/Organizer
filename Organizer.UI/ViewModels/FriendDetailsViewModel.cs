@@ -80,6 +80,8 @@ namespace Organizer.UI.ViewModels
 
             // sprawdzenie czy można zapisać zmiany
             SaveCommand.RaiseCanExecuteChanged();
+
+            Name = $"{Friend.FirstName} {Friend.LastName}";
         }
 
         protected override void OnDeleteCommand()
@@ -91,6 +93,7 @@ namespace Organizer.UI.ViewModels
             }
             _friendDataService.Delete(Friend.Model);
             _eventAggregator.GetEvent<DetailDeletedEvent>().Publish(new DetailDeletedEventArgs { Id = Friend.Id, ViewModelName = nameof(Friend)});
+            OnCloseTabCommand();
         }
 
         protected override async void OnSaveCommand()
@@ -195,6 +198,19 @@ namespace Organizer.UI.ViewModels
             var newNumber = new PhoneNumber();
             Friend.Model.PhoneNumbers.Add(newNumber);
             LoadPhoneNumbers();
+        }
+
+        protected override void OnCloseTabCommand()
+        {
+            if(HasChanges)
+            {
+                var result = _messageService.ShowOKCancelMsg("Do you want to close a friend without save?");
+                if (!result)
+                {
+                    return;
+                }
+            }
+            _eventAggregator.GetEvent<TabClosedEvent>().Publish(new TabClosedEventArgs { DetailViewModel = this });
         }
     }
 }

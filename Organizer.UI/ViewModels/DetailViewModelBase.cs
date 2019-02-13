@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Organizer.UI.Events;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace Organizer.UI.ViewModels
     {
         private bool _hasChanges;
         protected IEventAggregator _eventAggregator;
+        public string Name { get; protected set; }
 
         public DetailViewModelBase(IEventAggregator eventAggregator)
         {
@@ -18,11 +20,13 @@ namespace Organizer.UI.ViewModels
             // a drugą z CanExecute na końcu ponieważ ona zezwala na odpalenie handlera - wyszaża przycisk
             SaveCommand = new DelegateCommand(OnSaveCommand, OnSaveCoommandCanExecute);
             DeleteCommand = new DelegateCommand(OnDeleteCommand);
+            CloseTabCommand = new DelegateCommand(OnCloseTabCommand);
         }
 
         // command przycisku zapisz zmiany
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand DeleteCommand { get; }
+        public DelegateCommand CloseTabCommand { get; }
 
         public bool HasChanges
         {
@@ -38,6 +42,8 @@ namespace Organizer.UI.ViewModels
         }
 
         public abstract Task LoadDetailAsync(int? id);
+
+        protected abstract void OnCloseTabCommand();
 
         protected abstract void OnDeleteCommand();
 

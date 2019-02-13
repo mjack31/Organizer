@@ -98,6 +98,7 @@
     <Compile Include="Events\DetailChangesSavedEvent.cs" />
     <Compile Include="Events\DetailDeletedEvent.cs" />
     <Compile Include="Events\ListItemChosenEvent.cs" />
+    <Compile Include="Events\TabClosedEvent.cs" />
     <Compile Include="Services\Interfaces\IMessageService.cs" />
     <Compile Include="Services\PopUpMessageService.cs" />
     <Compile Include="ViewModels\DetailViewModelBase.cs" />
