@@ -88,22 +88,30 @@ namespace Organizer.UI.ViewModels
                     return;
                 }
             }
+
             // stworzenie viewModelu - mimo ze DetailsViewModel jest typu IDetailsViewModel (rzutowanie klasy na interfejs) to przechowuje 
             // ona instancję FriendDetailsViewModel i dzięki temu dobrze się to wyświetla w ContenControl MainWindow
-            switch (eventArgs.ViewModelName)
+            if (!DetailViewModels.Any(f => f.Id == eventArgs.Id))
             {
-                case nameof(FriendDetailsViewModel):
-                    DetailsViewModel = _friendDetailsViewModelCreator();
-                    await DetailsViewModel.LoadDetailAsync(eventArgs.Id);
-                    DetailViewModels.Add(DetailsViewModel);
-                    break;
-                case nameof(MeetingDetailsViewModel):
-                    DetailsViewModel = _meetingDetailsViewModelCreator();
-                    await DetailsViewModel.LoadDetailAsync(eventArgs.Id);
-                    DetailViewModels.Add(DetailsViewModel);
-                    break;
-                default:
-                    break;
+                switch (eventArgs.ViewModelName)
+                {
+                    case nameof(FriendDetailsViewModel):
+                        DetailsViewModel = _friendDetailsViewModelCreator();
+                        await DetailsViewModel.LoadDetailAsync(eventArgs.Id);
+                        DetailViewModels.Add(DetailsViewModel);
+                        break;
+                    case nameof(MeetingDetailsViewModel):
+                        DetailsViewModel = _meetingDetailsViewModelCreator();
+                        await DetailsViewModel.LoadDetailAsync(eventArgs.Id);
+                        DetailViewModels.Add(DetailsViewModel);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                DetailsViewModel = DetailViewModels.FirstOrDefault(f => f.Id == eventArgs.Id);
             }
 
             // przestawienie taba na nowo dodany viewmodel

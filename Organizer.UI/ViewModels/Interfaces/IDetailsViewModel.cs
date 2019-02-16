@@ -6,5 +6,6 @@ namespace Organizer.UI.ViewModels
     {
         bool HasChanges { get; set; }
         Task LoadDetailAsync(int? id);
+        int Id { get; }
     }
 }

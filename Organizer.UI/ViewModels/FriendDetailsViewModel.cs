@@ -107,6 +107,7 @@ namespace Organizer.UI.ViewModels
             });
             // wylączenie przycisku Save po zapisaniu poprzes sprawdzenie zmian w kontekscie
             HasChanges = _friendDataService.HasChanges();
+            Name = $"{Friend.FirstName} {Friend.LastName}";
         }
 
         protected override bool OnSaveCoommandCanExecute()
@@ -171,6 +172,9 @@ namespace Organizer.UI.ViewModels
                 Friend.LastName = "";
                 Friend.FirstName = "";
             }
+
+            // przypisanie id viewmodelowi takie ja ma model
+            Id = Friend.Id;
         }
 
         private Friend CreateNewFriend()

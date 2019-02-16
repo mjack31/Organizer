@@ -10,7 +10,7 @@ namespace Organizer.UI.ViewModels
     {
         private bool _hasChanges;
         protected IEventAggregator _eventAggregator;
-        public string Name { get; protected set; }
+        private string _name;
 
         public DetailViewModelBase(IEventAggregator eventAggregator)
         {
@@ -27,6 +27,19 @@ namespace Organizer.UI.ViewModels
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand CloseTabCommand { get; }
+
+        public string Name
+        {
+            get { return _name; }
+            protected set
+            {
+                _name = value;
+                OnProperyChanged(nameof(Name));
+            }
+        }
+
+
+        public int Id { get; protected set; }
 
         public bool HasChanges
         {

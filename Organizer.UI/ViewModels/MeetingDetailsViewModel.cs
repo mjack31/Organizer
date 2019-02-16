@@ -108,7 +108,9 @@ namespace Organizer.UI.ViewModels
             // sprawdzenie czy można zapisać zmiany
             SaveCommand.RaiseCanExecuteChanged();
 
+
             Name = Meeting.Title;
+            Id = Meeting.Id;
         }
 
         protected override void OnDeleteCommand()
@@ -134,11 +136,25 @@ namespace Organizer.UI.ViewModels
             });
             // wylączenie przycisku Save po zapisaniu poprzes sprawdzenie zmian w kontekscie
             HasChanges = _meetingsRepo.HasChanges();
+            Name = Meeting.Title;
         }
 
         protected override bool OnSaveCoommandCanExecute()
         {
             return Meeting != null && !Meeting.HasErrors && HasChanges;
+        }
+
+        protected override void OnCloseTabCommand()
+        {
+            if (HasChanges)
+            {
+                var result = _messageService.ShowOKCancelMsg("Do you want to close a meeting without save?");
+                if (!result)
+                {
+                    return;
+                }
+            }
+            _eventAggregator.GetEvent<TabClosedEvent>().Publish(new TabClosedEventArgs { DetailViewModel = this });
         }
 
         private async void InitialiseMeetingFriends()
@@ -192,19 +208,6 @@ namespace Organizer.UI.ViewModels
         private bool OnAddFriendToMeetingCmdCanExecute()
         {
             return SelectedAvaibleFriend != null;
-        }
-
-        protected override void OnCloseTabCommand()
-        {
-            if(HasChanges)
-            {
-                var result = _messageService.ShowOKCancelMsg("Do you want to close a meeting without save?");
-                if (!result)
-                {
-                    return;
-                }
-            }
-            _eventAggregator.GetEvent<TabClosedEvent>().Publish(new TabClosedEventArgs{ DetailViewModel = this});
         }
     }
 }
