@@ -30,9 +30,6 @@ namespace Organizer.UI.ViewModels
 
             _meetingDetailsViewModelCreator = meetingDetailsViewModelCreator;
 
-            // dodanie subskrybenta (handlera) do eventu EventAggregatora Prism'a. Metoda Subscribe przyjmuje Action<T>
-            // ale można zamiast delegaty dodawać normalnie metody - ułatwienie
-            // przeniesiony do MainWindow aby można było tworzyć nowy ViewModel dla każdego friendsa, a tym samym nowy dbContext dla każdego friendsa
             _eventAggregator.GetEvent<ListItemChosenEvent>().Subscribe(OnListItemChosen);
             _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeletedEvent);
             _eventAggregator.GetEvent<TabClosedEvent>().Subscribe(OnTabClosedEvent);
@@ -65,19 +62,16 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        // Uniwersalna zmienna przechowująca view modele friendsów i spotkan
         public IDetailsViewModel DetailsViewModel
         {
             get { return _detailsViewModel; }
             set
             {
                 _detailsViewModel = value;
-                // odpalić trzeba OnPropertyChanged ponieważ w widoku podpięty do tej zmiennej jest DataContext
                 OnProperyChanged(nameof(DetailsViewModel));
             }
         }
 
-        // event handler wybrania danego Friendsa lub tworzenia nowego(jeżeli przekazany jest null)
         private async void OnListItemChosen(ListItemChosenEventArgs eventArgs)
         {
             if(DetailsViewModel != null && DetailsViewModel.HasChanges)
@@ -89,8 +83,6 @@ namespace Organizer.UI.ViewModels
                 }
             }
 
-            // stworzenie viewModelu - mimo ze DetailsViewModel jest typu IDetailsViewModel (rzutowanie klasy na interfejs) to przechowuje 
-            // ona instancję FriendDetailsViewModel i dzięki temu dobrze się to wyświetla w ContenControl MainWindow
             if (!DetailViewModels.Any(f => f.Id == eventArgs.Id))
             {
                 switch (eventArgs.ViewModelName)
@@ -114,7 +106,6 @@ namespace Organizer.UI.ViewModels
                 DetailsViewModel = DetailViewModels.FirstOrDefault(f => f.Id == eventArgs.Id);
             }
 
-            // przestawienie taba na nowo dodany viewmodel
             SelectedViewModel = DetailsViewModel;
         }
 

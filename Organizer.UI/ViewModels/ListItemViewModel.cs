@@ -1,7 +1,6 @@
 ﻿using Organizer.UI.Events;
 using Prism.Commands;
 using Prism.Events;
-using System;
 
 namespace Organizer.UI.ViewModels
 {
@@ -16,15 +15,11 @@ namespace Organizer.UI.ViewModels
             Id = id;
             Name = name;
             _eventAggregator = eventAggregator;
-
-            // można było po prostu zrobić np. nameof(FriendDetailsViewModel) w tej klasie ale 
-            // przekazywany jest do kontruktora bo klasa ListItemViemModel jest uniwersalna
             _viewModelName = viewModelName;
 
             SelectItemCommand = new DelegateCommand(OnSelectItemCommand);
         }
 
-        // command wyboru danego frienda
         public DelegateCommand SelectItemCommand { get; }
 
         public int Id { get; }
@@ -39,7 +34,6 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        // Handler commanda wyboru frienda
         private void OnSelectItemCommand()
         {
             _eventAggregator.GetEvent<ListItemChosenEvent>().Publish(new ListItemChosenEventArgs { Id = Id, ViewModelName = _viewModelName });

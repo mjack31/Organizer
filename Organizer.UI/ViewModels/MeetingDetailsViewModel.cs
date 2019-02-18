@@ -1,5 +1,4 @@
 ﻿using Organizer.Models;
-using Organizer.UI.Data;
 using Organizer.UI.Data.Interfaces;
 using Organizer.UI.Events;
 using Organizer.UI.Services;
@@ -7,10 +6,8 @@ using Organizer.UI.Wrappers;
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Organizer.UI.ViewModels
@@ -76,26 +73,21 @@ namespace Organizer.UI.ViewModels
         {
             if (id.HasValue)
             {
-                // normalnie metoda GetAsync nie przyjmuje nullable, ale wystarczy przekazać value id i działa
                 var meeting = await _meetingsRepo.GetAsync(id.Value);
                 Meeting = new MeetingWrapper(meeting);
             }
             else
             {
-                // tworzenie nowego spotkania
                 var meeting = CreateNewMeeting();
                 Meeting = new MeetingWrapper(meeting);
             }
 
             Meeting.PropertyChanged += (s, e) =>
             {
-                // przy każdej zmianie propery w wrapperze odpalenie eventu
                 SaveCommand.RaiseCanExecuteChanged();
-                // sprawdzanie kontekstu db czy są zmiany
                 HasChanges = _meetingsRepo.HasChanges();
             };
 
-            // sztuczka aby zaraz po naciśnięciu przycisku utworzenia nowego meetinga odświerzył się widok formularza i pojawiły się wskazówki walidacyjne
             if (!id.HasValue)
             {
                 Meeting.Title = "";
@@ -105,9 +97,7 @@ namespace Organizer.UI.ViewModels
 
             InitialiseMeetingFriends();
 
-            // sprawdzenie czy można zapisać zmiany
             SaveCommand.RaiseCanExecuteChanged();
-
 
             Name = Meeting.Title;
             Id = Meeting.Id;
@@ -121,7 +111,7 @@ namespace Organizer.UI.ViewModels
                 return;
             }
             _meetingsRepo.Delete(Meeting.Model);
-            _eventAggregator.GetEvent<DetailDeletedEvent>().Publish(new DetailDeletedEventArgs { Id = Meeting.Id, ViewModelName = nameof(Meeting) });
+            _eventAggregator.GetEvent<DetailDeletedEvent>().Publish(new DetailDeletedEventArgs { Id = Meeting.Id, ViewModelName = nameof(MeetingDetailsViewModel) });
             OnCloseTabCommand();
         }
 
@@ -134,7 +124,6 @@ namespace Organizer.UI.ViewModels
                 Name = Meeting.Title,
                 ViewModelName = GetType().Name
             });
-            // wylączenie przycisku Save po zapisaniu poprzes sprawdzenie zmian w kontekscie
             HasChanges = _meetingsRepo.HasChanges();
             Name = Meeting.Title;
         }
@@ -179,7 +168,6 @@ namespace Organizer.UI.ViewModels
 
         private Meeting CreateNewMeeting()
         {
-            // stworzenie nowego pustego spotkania i przekazanie do do kontekstu db
             var meeting = new Meeting();
             return _meetingsRepo.Add(meeting);
         }

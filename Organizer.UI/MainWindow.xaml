@@ -66,7 +66,6 @@
         </Menu>
 
         <view:FriendsListView Grid.Row="1" DataContext="{Binding FriendsListViewModel}" />
-        <!--<ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding DetailsViewModel}" />-->
         <TabControl Grid.Row="1" Grid.Column="1" 
                     ItemsSource="{Binding DetailViewModels}" 
                     SelectedItem="{Binding SelectedViewModel}">

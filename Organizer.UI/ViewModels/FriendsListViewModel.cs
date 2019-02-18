@@ -1,5 +1,4 @@
-﻿using Organizer.Models;
-using Organizer.UI.Data;
+﻿using Organizer.UI.Data;
 using Organizer.UI.Events;
 using Prism.Events;
 using System;
@@ -15,10 +14,8 @@ namespace Organizer.UI.ViewModels
         private ILookupItemsDataService _meetingsDataService;
         private IEventAggregator _eventAggregator;
 
-        // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
         public FriendsListViewModel(ILookupItemsDataService friendsDataService, IEventAggregator eventAggregator, ILookupItemsDataService meetingsDataService)
         {
-            // unikać instancjowania obiektów przez new, chyba że sąto listy, słowniki itp
             FriendsList = new ObservableCollection<ListItemViewModel>();
             MeetingsList = new ObservableCollection<ListItemViewModel>();
 
@@ -27,16 +24,13 @@ namespace Organizer.UI.ViewModels
 
             _eventAggregator = eventAggregator;
 
-            _eventAggregator.GetEvent<DetailChangesSavedEvent>().Subscribe(OnFriendChangesSaved);
-            _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnFriendDeletedEvent);
+            _eventAggregator.GetEvent<DetailChangesSavedEvent>().Subscribe(OnDetailChangesSaved);
+            _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeletedEvent);
         }
 
-        // Aktywna lista która updateuje UI gdy zmienia się jej zawartość
-        // Do tego propery zbindowany jest ListView
         public ObservableCollection<ListItemViewModel> FriendsList { get; }
         public ObservableCollection<ListItemViewModel> MeetingsList { get; }
 
-        // ładowanie listy przyjaciół
         public async Task LoadDataAsync()
         {
             await LoadFriends();
@@ -46,7 +40,7 @@ namespace Organizer.UI.ViewModels
         private async Task LoadMeetings()
         {
             var listItems = await _meetingsDataService.GetAllMeetingsAsync();
-            MeetingsList.Clear(); // Dla pewności zawsze czyścić kolekcję
+            MeetingsList.Clear();
             foreach (var item in listItems)
             {
                 var meeting = new ListItemViewModel(item.Id, item.Name, _eventAggregator, nameof(MeetingDetailsViewModel));
@@ -57,7 +51,7 @@ namespace Organizer.UI.ViewModels
         private async Task LoadFriends()
         {
             var listItems = await _friendsDataService.GetAllFriendsAsync();
-            FriendsList.Clear(); // Dla pewności zawsze czyścić kolekcję
+            FriendsList.Clear();
             foreach (var item in listItems)
             {
                 var friend = new ListItemViewModel(item.Id, item.Name, _eventAggregator, nameof(FriendDetailsViewModel));
@@ -65,22 +59,7 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        // Po zmianie z ListView na buttony i przeniesieniu publishera eventu kod nie jest już potrzebny
-        //// property do którego zbindowanne jest SelectedItem elementu ListView widoku
-        //private ListItemViewModel _selectedFriend;
-        //public ListItemViewModel SelectedFriend
-        //{
-        //    get { return _selectedFriend; }
-        //    set
-        //    {
-        //        _selectedFriend = value;
-
-        //        // odpalenie eventu informującego że zaznaczono innego frienda
-        //        _eventAggregator.GetEvent<ListItemChosenEvent>().Publish(SelectedFriend.Id);
-        //    }
-        //}
-
-        private void OnFriendChangesSaved(DetailChangesSavedEventArgs eventArgs)
+        private void OnDetailChangesSaved(DetailChangesSavedEventArgs eventArgs)
         {
             switch (eventArgs.ViewModelName)
             {
@@ -93,7 +72,6 @@ namespace Organizer.UI.ViewModels
                 default:
                     throw new Exception("Wrong view model");
             }
-
         }
 
         private void OnMeetingSave(DetailChangesSavedEventArgs eventArgs)
@@ -122,10 +100,21 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        private void OnFriendDeletedEvent(DetailDeletedEventArgs eventArgs)
+        private void OnDetailDeletedEvent(DetailDeletedEventArgs eventArgs)
         {
-            var friendToDelete = FriendsList.SingleOrDefault(f => f.Id == eventArgs.Id);
-            FriendsList.Remove(friendToDelete);
+            switch (eventArgs.ViewModelName)
+            {
+                case nameof(FriendDetailsViewModel):
+                    var friendToDelete = FriendsList.SingleOrDefault(f => f.Id == eventArgs.Id);
+                    FriendsList.Remove(friendToDelete);
+                    break;
+                case nameof(MeetingDetailsViewModel):
+                    var meetingToDelete = MeetingsList.SingleOrDefault(f => f.Id == eventArgs.Id);
+                    MeetingsList.Remove(meetingToDelete);
+                    break;
+                default:
+                    throw new Exception("Wrong view model");
+            }
         }
     }
 }

@@ -16,17 +16,18 @@ namespace Organizer.UI.ViewModels
         {
             _eventAggregator = eventAggregator;
 
-            // inicjalizacja property SaveCommand - konstruktor przyjmuje 2 delegaty/metody. Dobrą praktyką jest nazwyać pierwszą z "on" na początku bo to handler
-            // a drugą z CanExecute na końcu ponieważ ona zezwala na odpalenie handlera - wyszaża przycisk
+            // inicjalizacja property SaveCommand - konstruktor przyjmuje 2 delegaty/metody. Dobrą praktyką jest nazwyać pierwszą z "On" na początku bo to handler
+            // a drugą z CanExecute na końcu ponieważ ona zezwala na odpalenie handlera
             SaveCommand = new DelegateCommand(OnSaveCommand, OnSaveCoommandCanExecute);
             DeleteCommand = new DelegateCommand(OnDeleteCommand);
             CloseTabCommand = new DelegateCommand(OnCloseTabCommand);
         }
 
-        // command przycisku zapisz zmiany
         public DelegateCommand SaveCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand CloseTabCommand { get; }
+
+        public abstract Task LoadDetailAsync(int? id);
 
         public string Name
         {
@@ -47,14 +48,10 @@ namespace Organizer.UI.ViewModels
             set
             {
                 _hasChanges = value;
-                // informacja o zmianie tego prop raczej nie potrzebna bo i tak jest odpalany event RaiseCanExecuteChanged
                 OnProperyChanged(nameof(HasChanges));
-                // event odpalany po to aby zaktualizowac przycisk save
                 SaveCommand.RaiseCanExecuteChanged();
             }
         }
-
-        public abstract Task LoadDetailAsync(int? id);
 
         protected abstract void OnCloseTabCommand();
 

@@ -21,7 +21,6 @@ namespace Organizer.UI.ViewModels
         private IProgLangLookupItemsDataService _progLangDataService;
         private PhoneNumberWrapper _selectedPhoneNumber;
         
-        // do konstruktora przekazujemy wszystkie obiekty na których chcemy pracować - IoC
         public FriendDetailsViewModel(IFriendsRepository<Friend> friendDataService, IMessageService msgService, IProgLangLookupItemsDataService progLangDataService,
             IEventAggregator eventAggregator) : base(eventAggregator)
         {
@@ -30,8 +29,6 @@ namespace Organizer.UI.ViewModels
             _messageService = msgService;
             _progLangDataService = progLangDataService;
 
-            // inicjalizacja property SaveCommand - konstruktor przyjmuje 2 delegaty/metody. Dobrą praktyką jest nazwyać pierwszą z "on" na początku bo to handler
-            // a drugą z CanExecute na końcu ponieważ ona zezwala na odpalenie handlera - wyszaża przycisk
             AddNumberCommand = new DelegateCommand(OnAddNumberCommand);
             DeleteNumberCommand = new DelegateCommand(OnDeleteNumberCommand, OnDeleteNumberCommandCanExecute);
 
@@ -45,15 +42,12 @@ namespace Organizer.UI.ViewModels
         public ObservableCollection<ListItem> ProgLangList { get; set; }
         public ObservableCollection<PhoneNumberWrapper> PhoneNumbers { get; set; }
 
-        // propery do którego zbindowany jest widok
         public FriendWrapper Friend
         {
             get { return _friend; }
             set
             {
                 _friend = value;
-                // przy każdym setowaniu odpalać ten event aby UI się updateowało
-                // tutaj UI musi wiedzieć że wybrano jakiegoś Frienda i że wybrano innego nawet jeżeli tworzony jest nowy ViewModel
                 OnProperyChanged(nameof(Friend));
             }
         }
@@ -69,7 +63,6 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        // ładowanie pełnych danych wybranego przyjaciela
         public override async Task LoadDetailAsync(int? friendId)
         {
             await LoadFriend(friendId);
@@ -78,7 +71,6 @@ namespace Organizer.UI.ViewModels
 
             LoadPhoneNumbers();
 
-            // sprawdzenie czy można zapisać zmiany
             SaveCommand.RaiseCanExecuteChanged();
 
             Name = $"{Friend.FirstName} {Friend.LastName}";
@@ -92,7 +84,7 @@ namespace Organizer.UI.ViewModels
                 return;
             }
             _friendDataService.Delete(Friend.Model);
-            _eventAggregator.GetEvent<DetailDeletedEvent>().Publish(new DetailDeletedEventArgs { Id = Friend.Id, ViewModelName = nameof(Friend)});
+            _eventAggregator.GetEvent<DetailDeletedEvent>().Publish(new DetailDeletedEventArgs { Id = Friend.Id, ViewModelName = nameof(FriendDetailsViewModel) });
             OnCloseTabCommand();
         }
 
@@ -105,7 +97,7 @@ namespace Organizer.UI.ViewModels
                 Name = $"{Friend.FirstName} {Friend.LastName}",
                 ViewModelName = GetType().Name
             });
-            // wylączenie przycisku Save po zapisaniu poprzes sprawdzenie zmian w kontekscie
+
             HasChanges = _friendDataService.HasChanges();
             Name = $"{Friend.FirstName} {Friend.LastName}";
         }
@@ -113,6 +105,19 @@ namespace Organizer.UI.ViewModels
         protected override bool OnSaveCoommandCanExecute()
         {
             return Friend != null && !Friend.HasErrors && HasChanges && !PhoneNumbers.Any(f => f.HasErrors);
+        }
+
+        protected override void OnCloseTabCommand()
+        {
+            if (HasChanges)
+            {
+                var result = _messageService.ShowOKCancelMsg("Do you want to close a friend without save?");
+                if (!result)
+                {
+                    return;
+                }
+            }
+            _eventAggregator.GetEvent<TabClosedEvent>().Publish(new TabClosedEventArgs { DetailViewModel = this });
         }
 
         private void LoadPhoneNumbers()
@@ -147,39 +152,32 @@ namespace Organizer.UI.ViewModels
         {
             if (friendId.HasValue)
             {
-                // normalnie metoda GetFriendAsync nie przyjmuje nullable, ale wystarczy przekazać value friendId i działa
                 var friend = await _friendDataService.GetAsync(friendId.Value);
                 Friend = new FriendWrapper(friend);
             }
             else
             {
-                // tworzenie nowego frienda
                 var friend = CreateNewFriend();
                 Friend = new FriendWrapper(friend);
             }
 
             Friend.PropertyChanged += (s, e) =>
             {
-                // przy każdej zmianie propery w wrapperze odpalenie eventu
                 SaveCommand.RaiseCanExecuteChanged();
-                // sprawdzanie kontekstu db czy są zmiany
                 HasChanges = _friendDataService.HasChanges();
             };
 
-            // sztuczka aby zaraz po naciśnięciu przycisku utworzenia nowego frienda odświerzył się widok formularza i pojawiły się wskazówki walidacyjne
             if (!friendId.HasValue)
             {
                 Friend.LastName = "";
                 Friend.FirstName = "";
             }
 
-            // przypisanie id viewmodelowi takie ja ma model
             Id = Friend.Id;
         }
 
         private Friend CreateNewFriend()
         {
-            // stworzenie nowego pustego frienda i przekazanie do do kontekstu db
             var friend = new Friend();
             return _friendDataService.Add(friend);
         }
@@ -202,19 +200,6 @@ namespace Organizer.UI.ViewModels
             var newNumber = new PhoneNumber();
             Friend.Model.PhoneNumbers.Add(newNumber);
             LoadPhoneNumbers();
-        }
-
-        protected override void OnCloseTabCommand()
-        {
-            if(HasChanges)
-            {
-                var result = _messageService.ShowOKCancelMsg("Do you want to close a friend without save?");
-                if (!result)
-                {
-                    return;
-                }
-            }
-            _eventAggregator.GetEvent<TabClosedEvent>().Publish(new TabClosedEventArgs { DetailViewModel = this });
         }
     }
 }

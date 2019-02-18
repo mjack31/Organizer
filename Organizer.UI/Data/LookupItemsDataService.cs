@@ -12,7 +12,7 @@ namespace Organizer.UI.Data
     {
         private Func<OrganizerDbContext> _dbContextCreator;
 
-        // nie można wstrzyknąć instancji dbContext poniważ chcemy tworzy instancje dynamicznie wewnątrz klasy. Każde GetAll musi tworzyć nowy kontekst. Przy zwykłym DI kontext był by stworzony tylko raz.
+        // nie można wstrzyknąć instancji dbContext poniważ chcemy tworzy instancje dynamicznie wewnątrz klasy. Każde GetAll musi tworzyć nowy kontekst. Przy zwykłym DI context był by stworzony tylko raz.
         // trzeba użyć dynamicznego operatora Func<>
         public LookupItemsDataService(Func<OrganizerDbContext> dbContextCreator)
         {
@@ -28,7 +28,6 @@ namespace Organizer.UI.Data
                     Id = f.Id,
                     Name = f.FirstName + " " + f.LastName
                 }).ToListAsync();
-                //await Task.Delay(5000); // dla testów responsywności przy ładowaniu danych
                 return listItem;
             }
         }
@@ -42,7 +41,6 @@ namespace Organizer.UI.Data
                     Id = f.Id,
                     Name = f.Title,
                 }).ToListAsync();
-                //await Task.Delay(5000); // dla testów responsywności przy ładowaniu danych
                 return listItem;
             }
         }
@@ -56,7 +54,6 @@ namespace Organizer.UI.Data
                     Id = f.Id,
                     Name = f.LanguageName
                 }).ToListAsync();
-                //await Task.Delay(5000); // dla testów responsywności przy ładowaniu danych
                 return listItem;
             }
         }

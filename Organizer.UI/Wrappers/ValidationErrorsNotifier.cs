@@ -51,7 +51,6 @@ namespace Organizer.UI.Wrappers
             {
                 _errorsByPropName.Remove(propName);
             }
-            // Potrzebne jest pełne czyśżczenie ponieważ HasError jest na true nawet gdy obiekt(property np FirstName) jest pusty
         }
 
         protected abstract void Validate(string propName);

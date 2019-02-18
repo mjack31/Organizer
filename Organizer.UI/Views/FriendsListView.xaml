@@ -7,10 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" BorderBrush="Gainsboro" BorderThickness="2">
     <Grid>
-        <!--<ListView
-            ItemsSource="{Binding FriendsList}"
-            SelectedItem="{Binding SelectedFriend, Mode=TwoWay}"
-            DisplayMemberPath="Name"/>-->
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -21,8 +17,6 @@
                 <ItemsControl ItemsSource="{Binding FriendsList}">
                     <ItemsControl.ItemTemplate >
                         <DataTemplate>
-                            <!--Stylowanie powinno być w osobnym miejscu-->
-                            <!--Np w resourcach i pod propertisem ControlTemplate-->
                             <Button Content="{Binding Name}"
                                 Command="{Binding SelectItemCommand}" 
                                 Background="White"
@@ -39,8 +33,6 @@
                 <ItemsControl ItemsSource="{Binding MeetingsList}">
                     <ItemsControl.ItemTemplate >
                         <DataTemplate>
-                            <!--Stylowanie powinno być w osobnym miejscu-->
-                            <!--Np w resourcach i pod propertisem ControlTemplate-->
                             <Button Content="{Binding Name}"
                                 Command="{Binding SelectItemCommand}" 
                                 Background="White"
