@@ -74,15 +74,6 @@ namespace Organizer.UI.ViewModels
 
         private async void OnListItemChosen(ListItemChosenEventArgs eventArgs)
         {
-            if(DetailsViewModel != null && DetailsViewModel.HasChanges)
-            {
-                var result = _messageService.ShowOKCancelMsg("This friend has changes. Do you want to change a friend?");
-                if (!result)
-                {
-                    return;
-                }
-            }
-
             if (!DetailViewModels.Any(f => f.Id == eventArgs.Id))
             {
                 switch (eventArgs.ViewModelName)

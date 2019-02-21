@@ -200,6 +200,7 @@ namespace Organizer.UI.ViewModels
             var newNumber = new PhoneNumber();
             Friend.Model.PhoneNumbers.Add(newNumber);
             LoadPhoneNumbers();
+            SelectedPhoneNumber = PhoneNumbers.FirstOrDefault(f => f.Number == newNumber.Number);
         }
     }
 }

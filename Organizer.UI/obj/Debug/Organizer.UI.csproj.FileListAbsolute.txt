@@ -51,3 +51,10 @@ C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\ControlzEx.dll
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\MahApps.Metro.dll
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\ControlzEx.pdb
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\MahApps.Metro.pdb
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\MahApps.Metro.xml
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\obj\Debug\App.baml

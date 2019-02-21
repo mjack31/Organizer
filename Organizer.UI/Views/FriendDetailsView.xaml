@@ -49,7 +49,7 @@
                       SelectedValue="{Binding Friend.FavoriteProgLangId, Mode=TwoWay}"/>
         </StackPanel>
 
-        <DockPanel Grid.Row="4" Margin="5 25 5 5">
+        <DockPanel Grid.Row="4" Margin="5 35 5 5">
             <StackPanel DockPanel.Dock="Right">
                 <Button  Height="30" Width="150"
                      Margin="5"
