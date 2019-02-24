@@ -36,7 +36,7 @@ namespace Organizer.UI.ViewModels
 
         private void OnSelectItemCommand()
         {
-            _eventAggregator.GetEvent<ListItemChosenEvent>().Publish(new ListItemChosenEventArgs { Id = Id, ViewModelName = _viewModelName });
+            _eventAggregator.GetEvent<OpenDetailViewEvent>().Publish(new OpenDetailViewEventArgs { Id = Id, ViewModelName = _viewModelName });
         }
     }
 }

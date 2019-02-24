@@ -58,3 +58,5 @@ C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\MahApps.Metro.pdb
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\bin\Debug\MahApps.Metro.xml
 C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\obj\Debug\App.baml
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\obj\Debug\Views\ProgLanguagesView.g.cs
+C:\Users\Jacek\Documents\Visual Studio 2017\Projects\Organizer\Organizer.UI\obj\Debug\Views\ProgLanguagesView.baml

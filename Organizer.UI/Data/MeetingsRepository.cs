@@ -12,7 +12,6 @@ namespace Organizer.UI.Data
     {
         public MeetingsRepository(OrganizerDbContext dbContext) : base(dbContext)
         {
-
         }
 
         public override async Task<Meeting> GetAsync(int id)

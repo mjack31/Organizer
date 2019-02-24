@@ -32,6 +32,9 @@ namespace Organizer.UI
 
             builder.RegisterType<MeetingDetailsViewModel>().As<IMeetingDetailsViewModel>();
             builder.RegisterType<MeetingsRepository>().As<IMeetingsRepository<Meeting>>();
+            builder.RegisterType<ProgLanguagesRepository>().As<IProgLanguagesRepository<ProgramingLang>>();
+            builder.RegisterType<ProgLanguagesViewModel>().As<IProgLanguagesViewModel>();
+
             return builder.Build();
         }
     }

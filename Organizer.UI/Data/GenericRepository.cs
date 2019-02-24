@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Threading.Tasks;
 
 namespace Organizer.UI.Data
@@ -21,7 +22,6 @@ namespace Organizer.UI.Data
         public void Delete(TEntity model)
         {
             _dbContext.Set<TEntity>().Remove(model);
-            _dbContext.SaveChanges();
         }
 
         public virtual async Task<TEntity> GetAsync(int id)
@@ -38,6 +38,11 @@ namespace Organizer.UI.Data
         public async Task SaveAsync()
         {
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<TEntity>> GetAll()
+        {
+            return await _dbContext.Set<TEntity>().ToListAsync();
         }
     }
 }

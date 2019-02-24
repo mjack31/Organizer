@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Linq;
+using Organizer.Models;
 
 namespace Organizer.UI.ViewModels
 {
@@ -17,11 +18,13 @@ namespace Organizer.UI.ViewModels
         private Func<IFriendDetailsViewModel> _friendDetailsViewModelCreator;
         private IMessageService _messageService;
         private Func<IMeetingDetailsViewModel> _meetingDetailsViewModelCreator;
+        private IProgLanguagesViewModel _progLanguagesRepo;
         private IDetailsViewModel _detailsViewModel;
         private IDetailsViewModel _selectedViewModel;
 
         public MainWindowViewModel(IFriendsListViewModel friendsListViewModel, Func<IFriendDetailsViewModel> friendDetailsViewModelCreator, 
-            IEventAggregator eventAggregator, IMessageService msgService, Func<IMeetingDetailsViewModel> meetingDetailsViewModelCreator)
+            IEventAggregator eventAggregator, IMessageService msgService, Func<IMeetingDetailsViewModel> meetingDetailsViewModelCreator,
+            IProgLanguagesViewModel progLanguagesRepo)
         {
             FriendsListViewModel = friendsListViewModel;
             _eventAggregator = eventAggregator;
@@ -29,19 +32,22 @@ namespace Organizer.UI.ViewModels
             _messageService = msgService;
 
             _meetingDetailsViewModelCreator = meetingDetailsViewModelCreator;
+            _progLanguagesRepo = progLanguagesRepo;
 
-            _eventAggregator.GetEvent<ListItemChosenEvent>().Subscribe(OnListItemChosen);
+            _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpendDetailView);
             _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeletedEvent);
             _eventAggregator.GetEvent<TabClosedEvent>().Subscribe(OnTabClosedEvent);
 
             CreateNewFriendCommand = new DelegateCommand(OnCreateNewFriendCommand);
             CreateNewMeetingCommand = new DelegateCommand(OnCreateNewMeetingCommand);
+            EditProgLanguagesCommand = new DelegateCommand(OnEditProgLanguagesCommand);
 
             DetailViewModels = new ObservableCollection<IDetailsViewModel>();
         }
 
         public DelegateCommand CreateNewFriendCommand { get; }
         public DelegateCommand CreateNewMeetingCommand { get; }
+        public DelegateCommand EditProgLanguagesCommand { get; }
 
         public async Task LoadDataAsync()
         {
@@ -72,7 +78,7 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        private async void OnListItemChosen(ListItemChosenEventArgs eventArgs)
+        private async void OnOpendDetailView(OpenDetailViewEventArgs eventArgs)
         {
             if (!DetailViewModels.Any(f => f.Id == eventArgs.Id))
             {
@@ -85,6 +91,11 @@ namespace Organizer.UI.ViewModels
                         break;
                     case nameof(MeetingDetailsViewModel):
                         DetailsViewModel = _meetingDetailsViewModelCreator();
+                        await DetailsViewModel.LoadDetailAsync(eventArgs.Id);
+                        DetailViewModels.Add(DetailsViewModel);
+                        break;
+                    case nameof(ProgLanguagesViewModel):
+                        DetailsViewModel = _progLanguagesRepo;
                         await DetailsViewModel.LoadDetailAsync(eventArgs.Id);
                         DetailViewModels.Add(DetailsViewModel);
                         break;
@@ -102,7 +113,7 @@ namespace Organizer.UI.ViewModels
 
         private void OnCreateNewFriendCommand()
         {
-            OnListItemChosen(new ListItemChosenEventArgs { ViewModelName = nameof(FriendDetailsViewModel) });
+            OnOpendDetailView(new OpenDetailViewEventArgs { ViewModelName = nameof(FriendDetailsViewModel) });
         }
 
         private void OnDetailDeletedEvent(DetailDeletedEventArgs obj)
@@ -117,7 +128,12 @@ namespace Organizer.UI.ViewModels
 
         private void OnCreateNewMeetingCommand()
         {
-            OnListItemChosen(new ListItemChosenEventArgs { ViewModelName = nameof(MeetingDetailsViewModel) });
+            OnOpendDetailView(new OpenDetailViewEventArgs { ViewModelName = nameof(MeetingDetailsViewModel) });
+        }
+
+        private void OnEditProgLanguagesCommand()
+        {
+            OnOpendDetailView(new OpenDetailViewEventArgs { ViewModelName = nameof(ProgLanguagesViewModel), Id=-99999 });
         }
     }
 }

@@ -111,6 +111,7 @@ namespace Organizer.UI.ViewModels
                 return;
             }
             _meetingsRepo.Delete(Meeting.Model);
+            _meetingsRepo.SaveAsync();
             _eventAggregator.GetEvent<DetailDeletedEvent>().Publish(new DetailDeletedEventArgs { Id = Meeting.Id, ViewModelName = nameof(MeetingDetailsViewModel) });
             OnCloseTabCommand();
         }

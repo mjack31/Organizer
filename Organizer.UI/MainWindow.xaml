@@ -39,6 +39,9 @@
         <DataTemplate DataType="{x:Type vm:MeetingDetailsViewModel}">
             <view:MeetingDetailsView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProgLanguagesViewModel}">
+            <view:ProgLanguagesView />
+        </DataTemplate>
 
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
     </Window.Resources>
@@ -54,16 +57,25 @@
         </Grid.ColumnDefinitions>
 
         <Menu Grid.Row="0" Grid.ColumnSpan="2">
-            <MenuItem 
-                Header="Create new Friend"
-                FontSize="20"
+            <MenuItem Header="Create" FontSize="16">
+                <MenuItem 
+                Header="New Friend"
+                FontSize="16"
                 Margin="5"
                 Command="{Binding CreateNewFriendCommand}"/>
-            <MenuItem 
-                Header="Create new Meeting"
-                FontSize="20"
+                <MenuItem 
+                Header="New Meeting"
+                FontSize="16"
                 Margin="5"
                 Command="{Binding CreateNewMeetingCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Edit" FontSize="16">
+                <MenuItem 
+                Header="Edit programming languages table"
+                FontSize="16"
+                Margin="5"
+                Command="{Binding EditProgLanguagesCommand}"/>
+            </MenuItem>
         </Menu>
 
         <view:FriendsListView Grid.Row="1" DataContext="{Binding FriendsListViewModel}" />

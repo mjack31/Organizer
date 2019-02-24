@@ -11,5 +11,6 @@ namespace Organizer.UI.Data
         bool HasChanges();
         TEntity Add(TEntity model);
         void Delete(TEntity model);
+        Task<List<TEntity>> GetAll();
     }
 }

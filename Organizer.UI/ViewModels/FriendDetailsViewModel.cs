@@ -84,6 +84,7 @@ namespace Organizer.UI.ViewModels
                 return;
             }
             _friendDataService.Delete(Friend.Model);
+            _friendDataService.SaveAsync();
             _eventAggregator.GetEvent<DetailDeletedEvent>().Publish(new DetailDeletedEventArgs { Id = Friend.Id, ViewModelName = nameof(FriendDetailsViewModel) });
             OnCloseTabCommand();
         }

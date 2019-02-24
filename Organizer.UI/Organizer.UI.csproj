@@ -98,21 +98,25 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Data\FriendsRepository.cs" />
     <Compile Include="Data\GenericRepository.cs" />
+    <Compile Include="Data\Interfaces\IProgLanguagesRepository.cs" />
     <Compile Include="Data\Interfaces\IGenericRepository.cs" />
     <Compile Include="Data\Interfaces\IMeetingsRepository.cs" />
     <Compile Include="Data\Interfaces\IProgLangLookupItemsDataService.cs" />
     <Compile Include="Data\LookupItemsDataService.cs" />
     <Compile Include="Data\Interfaces\IFriendsRepository.cs" />
     <Compile Include="Data\MeetingsRepository.cs" />
+    <Compile Include="Data\ProgLanguagesRepository.cs" />
     <Compile Include="Events\DetailChangesSavedEvent.cs" />
     <Compile Include="Events\DetailDeletedEvent.cs" />
-    <Compile Include="Events\ListItemChosenEvent.cs" />
+    <Compile Include="Events\OpenDetailViewEvent.cs" />
     <Compile Include="Events\TabClosedEvent.cs" />
     <Compile Include="Services\Interfaces\IMessageService.cs" />
     <Compile Include="Services\PopUpMessageService.cs" />
     <Compile Include="ViewModels\DetailViewModelBase.cs" />
     <Compile Include="ViewModels\Interfaces\IMeetingDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IProgLanguagesViewModel.cs" />
     <Compile Include="ViewModels\MeetingDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ProgLanguagesViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\FriendDetailsViewModel.cs" />
     <Compile Include="ViewModels\FriendsListViewModel.cs" />
@@ -130,9 +134,13 @@
     <Compile Include="Views\MeetingDetailsView.xaml.cs">
       <DependentUpon>MeetingDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ProgLanguagesView.xaml.cs">
+      <DependentUpon>ProgLanguagesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Wrappers\FriendWrapper.cs" />
     <Compile Include="Wrappers\MeetingWrapper.cs" />
     <Compile Include="Wrappers\PhoneNumberWrapper.cs" />
+    <Compile Include="Wrappers\ProgLanguageWrapper.cs" />
     <Compile Include="Wrappers\ValidationErrorsNotifier.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -156,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MeetingDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProgLanguagesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
