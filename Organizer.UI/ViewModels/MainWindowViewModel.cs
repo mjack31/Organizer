@@ -18,13 +18,13 @@ namespace Organizer.UI.ViewModels
         private Func<IFriendDetailsViewModel> _friendDetailsViewModelCreator;
         private IMessageService _messageService;
         private Func<IMeetingDetailsViewModel> _meetingDetailsViewModelCreator;
-        private IProgLanguagesViewModel _progLanguagesRepo;
+        private Func<IProgLanguagesViewModel> _progLanguagesRepo;
         private IDetailsViewModel _detailsViewModel;
         private IDetailsViewModel _selectedViewModel;
 
         public MainWindowViewModel(IFriendsListViewModel friendsListViewModel, Func<IFriendDetailsViewModel> friendDetailsViewModelCreator, 
             IEventAggregator eventAggregator, IMessageService msgService, Func<IMeetingDetailsViewModel> meetingDetailsViewModelCreator,
-            IProgLanguagesViewModel progLanguagesRepo)
+            Func<IProgLanguagesViewModel> progLanguagesRepo)
         {
             FriendsListViewModel = friendsListViewModel;
             _eventAggregator = eventAggregator;
@@ -95,7 +95,7 @@ namespace Organizer.UI.ViewModels
                         DetailViewModels.Add(DetailsViewModel);
                         break;
                     case nameof(ProgLanguagesViewModel):
-                        DetailsViewModel = _progLanguagesRepo;
+                        DetailsViewModel = _progLanguagesRepo();
                         await DetailsViewModel.LoadDetailAsync(eventArgs.Id);
                         DetailViewModels.Add(DetailsViewModel);
                         break;

@@ -103,19 +103,38 @@ namespace Organizer.UI.ViewModels
             return SelectedLanguage != null;
         }
 
-        private void OnDeleteLanguageCommand()
+        private async void OnDeleteLanguageCommand()
         {
-            _progLanguagesRepository.Delete(SelectedLanguage.Model);
-            ProgrammingLanguages.Remove(SelectedLanguage);
-
-            SelectedLanguage = null;
-            SaveCommand.RaiseCanExecuteChanged();
-            DeleteLanguageCommand.RaiseCanExecuteChanged();
-            HasChanges = _progLanguagesRepository.HasChanges();
+            var friends = await _progLanguagesRepository.GetAllFriends();
+            friends.Any(f => f.FavoriteLanguage != null && f.FavoriteLanguage.LanguageName == SelectedLanguage.Name);
+            if (!friends.Any(f => f.FavoriteLanguage != null && f.FavoriteLanguage.LanguageName == SelectedLanguage.Name))
+            {
+                _progLanguagesRepository.Delete(SelectedLanguage.Model);
+                ProgrammingLanguages.Remove(SelectedLanguage);
+                SelectedLanguage = null;
+                SaveCommand.RaiseCanExecuteChanged();
+                DeleteLanguageCommand.RaiseCanExecuteChanged();
+                HasChanges = _progLanguagesRepository.HasChanges();
+            }
+            else
+            {
+                _msgService.ShowInfoMsg("You can not delete this language. This is someones favourie language!");
+            }
         }
 
         private void OnAddLanguageCommand()
         {
+            var newLang = new ProgramingLang();
+            _progLanguagesRepository.Add(newLang);
+            var addedLang = new ProgLanguageWrapper(newLang);
+            ProgrammingLanguages.Add(addedLang);
+            addedLang.PropertyChanged += WrappedLanguage_PropertyChanged;
+            SelectedLanguage = addedLang;
+
+            SelectedLanguage.Name = "";
+
+            SaveCommand.RaiseCanExecuteChanged();
+            HasChanges = _progLanguagesRepository.HasChanges();
         }
     }
 }

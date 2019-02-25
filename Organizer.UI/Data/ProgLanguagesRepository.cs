@@ -1,5 +1,8 @@
 ﻿using Organizer.DataAccess;
 using Organizer.Models;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace Organizer.UI.Data
 {
@@ -7,6 +10,11 @@ namespace Organizer.UI.Data
     {
         public ProgLanguagesRepository(OrganizerDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public async Task<List<Friend>> GetAllFriends()
+        {
+            return await _dbContext.Set<Friend>().ToListAsync();
         }
     }
 }

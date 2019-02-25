@@ -3,5 +3,6 @@
     public interface IMessageService
     {
         bool ShowOKCancelMsg(string msg);
+        void ShowInfoMsg(string msg);
     }
 }
